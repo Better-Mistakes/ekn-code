@@ -492,28 +492,57 @@ $(window).on("load", function () {
 
     // Touch/swipe functionality
     let touchStartX = 0;
+    let touchStartY = 0;
     let touchEndX = 0;
     let isDragging = false;
+    let isHorizontalSwipe = false;
     let startX = 0;
     let currentTranslate = 0;
     let prevTranslate = 0;
 
     sliderWrapper.addEventListener("touchstart", (e) => {
       touchStartX = e.touches[0].clientX;
-      isDragging = true;
+      touchStartY = e.touches[0].clientY;
       startX = e.touches[0].clientX;
       prevTranslate = currentTranslate;
+      isDragging = false;
+      isHorizontalSwipe = false;
     });
 
-    sliderWrapper.addEventListener("touchmove", (e) => {
-      if (!isDragging) return;
-      const currentPosition = e.touches[0].clientX;
-      const diff = currentPosition - startX;
-      currentTranslate = prevTranslate + diff;
-      gsap.set(sliderWrapper, { x: currentTranslate });
-    });
+    sliderWrapper.addEventListener(
+      "touchmove",
+      (e) => {
+        const currentX = e.touches[0].clientX;
+        const currentY = e.touches[0].clientY;
+        const diffX = Math.abs(currentX - touchStartX);
+        const diffY = Math.abs(currentY - touchStartY);
+
+        // Determine if it's a horizontal or vertical swipe
+        if (!isDragging && !isHorizontalSwipe) {
+          if (diffX > 10 || diffY > 10) {
+            // User has moved enough to determine direction
+            isHorizontalSwipe = diffX > diffY;
+            isDragging = isHorizontalSwipe;
+          }
+        }
+
+        if (isDragging && isHorizontalSwipe) {
+          e.preventDefault(); // Prevent page scroll only for horizontal swipes
+          const diff = currentX - startX;
+          currentTranslate = prevTranslate + diff;
+          gsap.set(sliderWrapper, { x: currentTranslate });
+        }
+      },
+      { passive: false }
+    );
 
     sliderWrapper.addEventListener("touchend", (e) => {
+      if (!isHorizontalSwipe) {
+        // Was a vertical scroll, don't do anything
+        isDragging = false;
+        return;
+      }
+
       touchEndX = e.changedTouches[0].clientX;
       isDragging = false;
 
