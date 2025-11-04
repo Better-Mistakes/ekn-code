@@ -659,9 +659,14 @@ $(window).on("load", function () {
 
 // --------------------- Number Counter Animation --------------------- //
 (function () {
+  console.log("Number counter script running...");
   const numberCounters = document.querySelectorAll(".number--count");
+  console.log("Found counters:", numberCounters.length);
 
-  if (numberCounters.length === 0) return;
+  if (numberCounters.length === 0) {
+    console.log("No .number--count elements found");
+    return;
+  }
 
   // Check if ScrollTrigger is available
   if (typeof ScrollTrigger === "undefined") {
@@ -669,12 +674,18 @@ $(window).on("load", function () {
     return;
   }
 
-  numberCounters.forEach((counter) => {
+  console.log("ScrollTrigger is available");
+
+  numberCounters.forEach((counter, idx) => {
     const originalText = counter.textContent.trim();
+    console.log(`Counter ${idx}: "${originalText}"`);
     const targetNumber = parseInt(originalText);
     const digitCount = originalText.length;
 
-    if (isNaN(targetNumber)) return;
+    if (isNaN(targetNumber)) {
+      console.log(`Counter ${idx} is NaN, skipping`);
+      return;
+    }
 
     // Store original content and setup
     counter.setAttribute("data-target", targetNumber);
