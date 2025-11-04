@@ -608,3 +608,49 @@ $(window).on("load", function () {
     }
   });
 })();
+
+// --------------------- What Offers Hover Circle --------------------- //
+(function () {
+  const section = document.querySelector(".section.is--whatoffers");
+  const hoverCircle = document.querySelector(".hover--circle.is--what");
+
+  if (!section || !hoverCircle) return;
+
+  // Initialize circle as hidden
+  gsap.set(hoverCircle, { opacity: 0 });
+
+  let mouseX = 0;
+  let mouseY = 0;
+
+  section.addEventListener("mousemove", function (e) {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  section.addEventListener("mouseenter", function () {
+    gsap.to(hoverCircle, {
+      opacity: 1,
+      duration: 0.3,
+      ease: "power2.out",
+    });
+  });
+
+  section.addEventListener("mouseleave", function () {
+    gsap.to(hoverCircle, {
+      opacity: 0,
+      duration: 0.3,
+      ease: "power2.out",
+    });
+  });
+
+  // Smooth follow animation with delay
+  gsap.ticker.add(() => {
+    gsap.to(hoverCircle, {
+      x: mouseX,
+      y: mouseY,
+      duration: 0.6,
+      ease: "power2.out",
+      overwrite: "auto",
+    });
+  });
+})();
