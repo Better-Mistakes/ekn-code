@@ -72,6 +72,21 @@ $(window).on("load", function () {
 
   let currentSplit = null;
 
+  // Initialize the first phrase with space spans
+  function initializeText() {
+    const textWithSpaces = phrases[currentIndex].replace(
+      / /g,
+      '<span class="space"> </span>'
+    );
+    eyebrowElement.innerHTML = textWithSpaces;
+
+    // Create initial split
+    currentSplit = new SplitText(eyebrowElement, {
+      type: "chars",
+      charsClass: "char",
+    });
+  }
+
   function animateTextChange() {
     if (isAnimating) return;
     isAnimating = true;
@@ -130,6 +145,9 @@ $(window).on("load", function () {
       },
     });
   }
+
+  // Initialize the text on load
+  initializeText();
 
   // Start the cycling animation
   setInterval(animateTextChange, 2000);
