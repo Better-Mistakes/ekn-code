@@ -299,7 +299,9 @@ $(window).on("load", function () {
 
 // --------------------- Offer Slide Hover Animation (Desktop) --------------------- //
 (function () {
-  // Only run on screens above 992px
+  let swiperInstance = null;
+
+  // Desktop hover functionality
   function initOfferSlides() {
     if (window.innerWidth <= 992) return;
 
@@ -397,17 +399,90 @@ $(window).on("load", function () {
     });
   }
 
+  // Mobile slider functionality
+  function initOfferSlider() {
+    if (window.innerWidth > 992) return;
+
+    const sliderWrapper = document.querySelector(".offer-sliders-wrapper");
+    if (!sliderWrapper) return;
+
+    // Check if Swiper is available
+    if (typeof Swiper === "undefined") {
+      console.error("Swiper is not loaded");
+      return;
+    }
+
+    // Destroy existing instance if it exists
+    if (swiperInstance) {
+      swiperInstance.destroy(true, true);
+      swiperInstance = null;
+    }
+
+    // Initialize Swiper
+    swiperInstance = new Swiper(".offers-slider", {
+      slidesPerView: 1,
+      spaceBetween:
+        parseFloat(getComputedStyle(document.documentElement).fontSize) * 1.25, // 1.25rem
+      navigation: {
+        nextEl: ".offer-slider-btn.is--next",
+        prevEl: ".offer-slider-btn.is--prev",
+      },
+      on: {
+        init: function () {
+          updateSlideNumbers(this);
+        },
+        slideChange: function () {
+          updateSlideNumbers(this);
+        },
+      },
+    });
+  }
+
+  function updateSlideNumbers(swiper) {
+    const currentSlideNumber = document.querySelector(
+      ".slide--number:first-child"
+    );
+    const totalSlideNumber = document.querySelector(
+      ".slide--number:last-child"
+    );
+
+    if (currentSlideNumber) {
+      currentSlideNumber.textContent = (swiper.activeIndex + 1)
+        .toString()
+        .padStart(2, "0");
+    }
+
+    if (totalSlideNumber) {
+      totalSlideNumber.textContent = swiper.slides.length
+        .toString()
+        .padStart(2, "0");
+    }
+  }
+
   // Initialize on load
-  initOfferSlides();
+  const isDesktop = window.innerWidth > 992;
+  if (isDesktop) {
+    initOfferSlides();
+  } else {
+    initOfferSlider();
+  }
 
   // Reinitialize on resize if crossing the 992px threshold
-  let wasDesktop = window.innerWidth > 992;
+  let wasDesktop = isDesktop;
   window.addEventListener("resize", function () {
     const isDesktop = window.innerWidth > 992;
     if (isDesktop !== wasDesktop) {
       wasDesktop = isDesktop;
       if (isDesktop) {
+        // Destroy slider and init desktop
+        if (swiperInstance) {
+          swiperInstance.destroy(true, true);
+          swiperInstance = null;
+        }
         initOfferSlides();
+      } else {
+        // Init mobile slider
+        initOfferSlider();
       }
     }
   });

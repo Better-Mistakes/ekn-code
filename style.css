@@ -76,6 +76,29 @@ body {
   }
 }
 
+@media (max-width: 991px) {
+  .offers-slider {
+    overflow: hidden;
+  }
+
+  .offer-sliders-wrapper {
+    display: flex;
+  }
+
+  .offer--slide {
+    flex-shrink: 0;
+  }
+
+  .offer-slider-btn {
+    cursor: pointer;
+  }
+
+  .offer-slider-btn.swiper-button-disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
 /* --------------------- How It Works Scroll Animation Styles --------------------- */
 .howitworks--content {
   will-change: opacity;
