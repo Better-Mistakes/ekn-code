@@ -15,6 +15,7 @@ body {
 
 /* --------------------- Eyebrow Animation Styles --------------------- */
 [animation="eyebrow"] {
+  position: relative;
   overflow: hidden;
   display: inline-block;
   white-space: nowrap;
@@ -23,6 +24,7 @@ body {
 [animation="eyebrow"] .char {
   display: inline-block;
   letter-spacing: 0.05em;
+  will-change: transform, opacity;
 }
 
 [animation="eyebrow"] .space {
