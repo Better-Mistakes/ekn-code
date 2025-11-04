@@ -70,16 +70,21 @@ $(window).on("load", function () {
   let currentIndex = 0;
   let isAnimating = false;
 
+  let currentSplit = null;
+
   function animateTextChange() {
     if (isAnimating) return;
     isAnimating = true;
 
-    // Split current text into characters
-    const split = new SplitText(eyebrowElement, {
-      type: "chars",
-      charsClass: "char",
-    });
-    const chars = split.chars;
+    // If there's an existing split, use it, otherwise create one
+    if (!currentSplit) {
+      currentSplit = new SplitText(eyebrowElement, {
+        type: "chars",
+        charsClass: "char",
+      });
+    }
+
+    const chars = currentSplit.chars;
 
     // Animate out (move up -100%)
     gsap.to(chars, {
@@ -89,8 +94,9 @@ $(window).on("load", function () {
       duration: 0.4,
       ease: "power2.in",
       onComplete: () => {
-        // Clean up old split
-        split.revert();
+        // Revert the split to get back plain text
+        currentSplit.revert();
+        currentSplit = null;
 
         // Update to next phrase (replace spaces with non-breaking spaces)
         currentIndex = (currentIndex + 1) % phrases.length;
@@ -99,12 +105,12 @@ $(window).on("load", function () {
           "&nbsp;"
         );
 
-        // Split new text into characters
-        const newSplit = new SplitText(eyebrowElement, {
+        // Create fresh split for new text
+        currentSplit = new SplitText(eyebrowElement, {
           type: "chars",
           charsClass: "char",
         });
-        const newChars = newSplit.chars;
+        const newChars = currentSplit.chars;
 
         // Set initial state (below, hidden)
         gsap.set(newChars, { yPercent: 100, opacity: 0 });
