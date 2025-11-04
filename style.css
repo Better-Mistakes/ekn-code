@@ -99,13 +99,16 @@ body {
 }
 
 /* --------------------- What Offers Hover Circle Styles --------------------- */
-.section.is--whatoffers {
+.relative.is--whatworks {
   position: relative;
+  overflow: hidden;
 }
 
 .hover--circle.is--what {
-  position: fixed;
+  position: absolute;
   pointer-events: none;
   will-change: transform, opacity;
   transform: translate(-50%, -50%);
+  top: 0;
+  left: 0;
 }

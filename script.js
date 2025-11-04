@@ -612,9 +612,10 @@ $(window).on("load", function () {
 // --------------------- What Offers Hover Circle --------------------- //
 (function () {
   const section = document.querySelector(".section.is--whatoffers");
+  const container = document.querySelector(".relative.is--whatworks");
   const hoverCircle = document.querySelector(".hover--circle.is--what");
 
-  if (!section || !hoverCircle) return;
+  if (!section || !container || !hoverCircle) return;
 
   // Initialize circle as hidden
   gsap.set(hoverCircle, { opacity: 0 });
@@ -623,8 +624,9 @@ $(window).on("load", function () {
   let mouseY = 0;
 
   section.addEventListener("mousemove", function (e) {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+    const rect = container.getBoundingClientRect();
+    mouseX = e.clientX - rect.left;
+    mouseY = e.clientY - rect.top;
   });
 
   section.addEventListener("mouseenter", function () {
