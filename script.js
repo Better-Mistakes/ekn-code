@@ -631,7 +631,7 @@ $(window).on("load", function () {
 
   section.addEventListener("mouseenter", function () {
     gsap.to(hoverCircle, {
-      opacity: 1,
+      opacity: 0.3,
       duration: 0.3,
       ease: "power2.out",
     });
