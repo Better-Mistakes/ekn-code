@@ -663,16 +663,38 @@ $(window).on("load", function () {
 
   if (numberCounters.length === 0) return;
 
+  // Check if ScrollTrigger is available
+  if (typeof ScrollTrigger === "undefined") {
+    console.error("ScrollTrigger is not loaded");
+    return;
+  }
+
   numberCounters.forEach((counter) => {
-    const targetNumber = parseInt(counter.textContent);
-    const digitCount = counter.textContent.length;
+    const originalText = counter.textContent.trim();
+    const targetNumber = parseInt(originalText);
+    const digitCount = originalText.length;
 
-    // Store original number
+    if (isNaN(targetNumber)) return;
+
+    // Store original content and setup
     counter.setAttribute("data-target", targetNumber);
+    const targetString = targetNumber.toString().padStart(digitCount, "0");
 
-    // Set initial state with zeros
-    const initialText = "0".repeat(digitCount);
-    counter.textContent = initialText;
+    // Build the HTML structure with digit wrappers
+    let html = "";
+    for (let i = 0; i < digitCount; i++) {
+      const targetDigit = parseInt(targetString[i]);
+      let columnHTML = "";
+
+      // Create column of digits from 0 to target
+      for (let j = 0; j <= targetDigit; j++) {
+        columnHTML += `<span class="digit-item">${j}</span>`;
+      }
+
+      html += `<span class="digit-wrapper"><span class="digit-column">${columnHTML}</span></span>`;
+    }
+
+    counter.innerHTML = html;
 
     // Create ScrollTrigger for this counter
     ScrollTrigger.create({
@@ -680,58 +702,23 @@ $(window).on("load", function () {
       start: "top bottom",
       once: true,
       onEnter: () => {
-        animateCounter(counter, targetNumber, digitCount);
+        const columns = counter.querySelectorAll(".digit-column");
+
+        columns.forEach((column, index) => {
+          const targetDigit = parseInt(targetString[index]);
+
+          gsap.fromTo(
+            column,
+            { yPercent: 0 },
+            {
+              yPercent: -targetDigit * 100,
+              duration: 1.5,
+              ease: "power2.out",
+              delay: index * 0.1,
+            }
+          );
+        });
       },
     });
   });
-
-  function animateCounter(counter, targetNumber, digitCount) {
-    const targetString = targetNumber.toString().padStart(digitCount, "0");
-    const digits = targetString.split("");
-
-    // Split the counter into individual digit spans
-    const split = new SplitText(counter, {
-      type: "chars",
-      charsClass: "digit",
-    });
-    const chars = split.chars;
-
-    // Animate each digit
-    chars.forEach((char, index) => {
-      const targetDigit = parseInt(digits[index]);
-
-      // Create a wrapper for overflow hidden
-      const wrapper = document.createElement("div");
-      wrapper.className = "digit-wrapper";
-      char.parentNode.insertBefore(wrapper, char);
-      wrapper.appendChild(char);
-
-      // Create the rolling animation
-      const digitColumn = document.createElement("div");
-      digitColumn.className = "digit-column";
-
-      // Create digits from 0 to target
-      for (let i = 0; i <= targetDigit; i++) {
-        const digitSpan = document.createElement("span");
-        digitSpan.textContent = i;
-        digitSpan.className = "digit-item";
-        digitColumn.appendChild(digitSpan);
-      }
-
-      char.innerHTML = "";
-      char.appendChild(digitColumn);
-
-      // Animate the column
-      gsap.fromTo(
-        digitColumn,
-        { yPercent: 0 },
-        {
-          yPercent: -targetDigit * 100,
-          duration: 1.5,
-          ease: "power2.out",
-          delay: index * 0.1,
-        }
-      );
-    });
-  }
 })();
