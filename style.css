@@ -112,3 +112,29 @@ body {
   top: 0;
   left: 0;
 }
+
+/* --------------------- Number Counter Animation Styles --------------------- */
+.number--count {
+  display: inline-flex;
+}
+
+.digit-wrapper {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.digit {
+  display: inline-block;
+}
+
+.digit-column {
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+}
+
+.digit-item {
+  display: block;
+  line-height: 1;
+}
