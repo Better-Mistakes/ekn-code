@@ -89,3 +89,7 @@ body {
 .howitworks--line {
   will-change: width;
 }
+
+.howitworks--img {
+  will-change: transform;
+}

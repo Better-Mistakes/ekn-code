@@ -425,10 +425,12 @@ $(window).on("load", function () {
     const content = parent.querySelector(".howitworks--content");
     const response = parent.querySelector(".howitworks--response");
     const line = parent.querySelector(".howitworks--line");
+    const img = parent.querySelector(".howitworks--img");
 
     if (content) gsap.set(content, { opacity: 0.3 });
     if (response) gsap.set(response, { height: 0, overflow: "hidden" });
     if (line) gsap.set(line, { width: "0%" });
+    if (img) gsap.set(img, { y: "100vh" });
   });
 
   triggers.forEach((trigger, index) => {
@@ -438,6 +440,7 @@ $(window).on("load", function () {
     const content = parent.querySelector(".howitworks--content");
     const response = parent.querySelector(".howitworks--response");
     const line = parent.querySelector(".howitworks--line");
+    const img = parent.querySelector(".howitworks--img");
 
     // Timeline for activating this section
     const activateTimeline = gsap.timeline({
@@ -543,6 +546,37 @@ $(window).on("load", function () {
           scrub: true,
         },
       });
+    }
+
+    // Animate current image from 100vh to 0
+    if (img) {
+      gsap.to(img, {
+        y: "0vh",
+        ease: "none",
+        scrollTrigger: {
+          trigger: trigger,
+          start: "top bottom",
+          end: "bottom bottom",
+          scrub: true,
+        },
+      });
+    }
+
+    // Animate previous image from 0 to -100vh
+    if (index > 0 && parents[index - 1]) {
+      const prevImg = parents[index - 1].querySelector(".howitworks--img");
+      if (prevImg) {
+        gsap.to(prevImg, {
+          y: "-100vh",
+          ease: "none",
+          scrollTrigger: {
+            trigger: trigger,
+            start: "top bottom",
+            end: "bottom bottom",
+            scrub: true,
+          },
+        });
+      }
     }
   });
 })();
