@@ -415,29 +415,48 @@ $(window).on("load", function () {
 
 // --------------------- How It Works Scroll Animation --------------------- //
 (function () {
+  const triggersParent = document.querySelector(".howitworks--triggers-parent");
   const triggers = document.querySelectorAll(".howitworks--trigger");
   const parents = document.querySelectorAll(".howitworks--parent");
 
-  if (triggers.length === 0 || parents.length === 0) return;
+  if (!triggersParent || triggers.length === 0 || parents.length === 0) return;
 
   // Initialize all content and response to inactive state
-  parents.forEach((parent, index) => {
+  parents.forEach((parent) => {
     const content = parent.querySelector(".howitworks--content");
     const response = parent.querySelector(".howitworks--response");
     const line = parent.querySelector(".howitworks--line");
-    const img = parent.querySelector(".howitworks--img");
 
     if (content) gsap.set(content, { opacity: 0.3 });
     if (response) gsap.set(response, { height: 0, overflow: "hidden" });
     if (line) gsap.set(line, { width: "0%" });
+  });
 
-    // First image starts at 0, all others at 100vh
-    if (img) {
-      if (index === 0) {
-        gsap.set(img, { y: "0vh" });
-      } else {
-        gsap.set(img, { y: "100vh" });
-      }
+  // Set initial positions for images
+  const initialPositions = ["0vh", "100vh", "200vh"];
+  const finalPositions = ["-200vh", "-100vh", "0vh"];
+
+  parents.forEach((parent, index) => {
+    const img = parent.querySelector(".howitworks--img");
+    if (img && initialPositions[index]) {
+      gsap.set(img, { y: initialPositions[index] });
+    }
+  });
+
+  // Animate all images based on the parent scroll
+  parents.forEach((parent, index) => {
+    const img = parent.querySelector(".howitworks--img");
+    if (img && initialPositions[index] && finalPositions[index]) {
+      gsap.to(img, {
+        y: finalPositions[index],
+        ease: "none",
+        scrollTrigger: {
+          trigger: triggersParent,
+          start: "top bottom",
+          end: "bottom bottom",
+          scrub: true,
+        },
+      });
     }
   });
 
@@ -448,7 +467,6 @@ $(window).on("load", function () {
     const content = parent.querySelector(".howitworks--content");
     const response = parent.querySelector(".howitworks--response");
     const line = parent.querySelector(".howitworks--line");
-    const img = parent.querySelector(".howitworks--img");
 
     // Timeline for activating this section
     const activateTimeline = gsap.timeline({
@@ -554,69 +572,6 @@ $(window).on("load", function () {
           scrub: true,
         },
       });
-    }
-
-    // Image animations during this trigger's scroll
-
-    // Previous image: -50vh → -100vh
-    if (index > 0 && parents[index - 1]) {
-      const prevImg = parents[index - 1].querySelector(".howitworks--img");
-      if (prevImg) {
-        gsap.fromTo(
-          prevImg,
-          { y: "-50vh" },
-          {
-            y: "-100vh",
-            ease: "none",
-            scrollTrigger: {
-              trigger: trigger,
-              start: "top bottom",
-              end: "bottom bottom",
-              scrub: true,
-            },
-          }
-        );
-      }
-    }
-
-    // Current image: starting position → -50vh
-    if (img) {
-      const startY = index === 0 ? "0vh" : "50vh";
-      gsap.fromTo(
-        img,
-        { y: startY },
-        {
-          y: "-50vh",
-          ease: "none",
-          scrollTrigger: {
-            trigger: trigger,
-            start: "top bottom",
-            end: "bottom bottom",
-            scrub: true,
-          },
-        }
-      );
-    }
-
-    // Next image: 100vh → 50vh
-    if (index < parents.length - 1 && parents[index + 1]) {
-      const nextImg = parents[index + 1].querySelector(".howitworks--img");
-      if (nextImg) {
-        gsap.fromTo(
-          nextImg,
-          { y: "100vh" },
-          {
-            y: "50vh",
-            ease: "none",
-            scrollTrigger: {
-              trigger: trigger,
-              start: "top bottom",
-              end: "bottom bottom",
-              scrub: true,
-            },
-          }
-        );
-      }
     }
   });
 })();
