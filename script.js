@@ -720,9 +720,9 @@ $(window).on("load", function () {
 
           gsap.fromTo(
             column,
-            { yPercent: 0 },
+            { y: "0em" },
             {
-              yPercent: -targetDigit * 8.5,
+              y: `-${targetDigit * 1}em`,
               duration: 1.5,
               ease: "power2.out",
               delay: index * 0.1,
