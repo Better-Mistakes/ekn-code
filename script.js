@@ -107,7 +107,7 @@ $(window).on("load", function () {
       opacity: 0,
       stagger: 0.03,
       duration: 0.4,
-      ease: "power2.in",
+      ease: "power2.out",
     });
 
     // Prepare new text while old one is animating out
