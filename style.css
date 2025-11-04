@@ -75,3 +75,17 @@ body {
     will-change: opacity;
   }
 }
+
+/* --------------------- How It Works Scroll Animation Styles --------------------- */
+.howitworks--content {
+  will-change: opacity;
+}
+
+.howitworks--response {
+  overflow: hidden;
+  will-change: height;
+}
+
+.howitworks--line {
+  will-change: width;
+}

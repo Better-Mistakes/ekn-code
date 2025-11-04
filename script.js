@@ -412,3 +412,137 @@ $(window).on("load", function () {
     }
   });
 })();
+
+// --------------------- How It Works Scroll Animation --------------------- //
+(function () {
+  const triggers = document.querySelectorAll(".howitworks--trigger");
+  const parents = document.querySelectorAll(".howitworks--parent");
+
+  if (triggers.length === 0 || parents.length === 0) return;
+
+  // Initialize all content and response to inactive state
+  parents.forEach((parent) => {
+    const content = parent.querySelector(".howitworks--content");
+    const response = parent.querySelector(".howitworks--response");
+    const line = parent.querySelector(".howitworks--line");
+
+    if (content) gsap.set(content, { opacity: 0.3 });
+    if (response) gsap.set(response, { height: 0, overflow: "hidden" });
+    if (line) gsap.set(line, { width: "0%" });
+  });
+
+  triggers.forEach((trigger, index) => {
+    const parent = parents[index];
+    if (!parent) return;
+
+    const content = parent.querySelector(".howitworks--content");
+    const response = parent.querySelector(".howitworks--response");
+    const line = parent.querySelector(".howitworks--line");
+
+    // Timeline for activating this section
+    const activateTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: trigger,
+        start: "top bottom",
+        onEnter: () => {
+          // Deactivate previous parent
+          if (index > 0 && parents[index - 1]) {
+            const prevContent = parents[index - 1].querySelector(
+              ".howitworks--content"
+            );
+            const prevResponse = parents[index - 1].querySelector(
+              ".howitworks--response"
+            );
+
+            if (prevContent) {
+              gsap.to(prevContent, {
+                opacity: 0.3,
+                duration: 0.4,
+                ease: "power2.out",
+              });
+            }
+            if (prevResponse) {
+              gsap.to(prevResponse, {
+                height: 0,
+                duration: 0.4,
+                ease: "power2.out",
+              });
+            }
+          }
+
+          // Activate current parent
+          if (content) {
+            gsap.to(content, {
+              opacity: 1,
+              duration: 0.4,
+              ease: "power2.out",
+            });
+          }
+          if (response) {
+            gsap.to(response, {
+              height: "auto",
+              duration: 0.4,
+              ease: "power2.out",
+            });
+          }
+        },
+        onLeaveBack: () => {
+          // When scrolling back up, deactivate current and reactivate previous
+          if (content) {
+            gsap.to(content, {
+              opacity: 0.3,
+              duration: 0.4,
+              ease: "power2.out",
+            });
+          }
+          if (response) {
+            gsap.to(response, {
+              height: 0,
+              duration: 0.4,
+              ease: "power2.out",
+            });
+          }
+
+          // Reactivate previous
+          if (index > 0 && parents[index - 1]) {
+            const prevContent = parents[index - 1].querySelector(
+              ".howitworks--content"
+            );
+            const prevResponse = parents[index - 1].querySelector(
+              ".howitworks--response"
+            );
+
+            if (prevContent) {
+              gsap.to(prevContent, {
+                opacity: 1,
+                duration: 0.4,
+                ease: "power2.out",
+              });
+            }
+            if (prevResponse) {
+              gsap.to(prevResponse, {
+                height: "auto",
+                duration: 0.4,
+                ease: "power2.out",
+              });
+            }
+          }
+        },
+      },
+    });
+
+    // Separate ScrollTrigger for the line animation
+    if (line) {
+      gsap.to(line, {
+        width: "100%",
+        ease: "none",
+        scrollTrigger: {
+          trigger: trigger,
+          start: "top bottom",
+          end: "bottom bottom",
+          scrub: true,
+        },
+      });
+    }
+  });
+})();
