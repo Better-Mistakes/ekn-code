@@ -421,7 +421,7 @@ $(window).on("load", function () {
   if (triggers.length === 0 || parents.length === 0) return;
 
   // Initialize all content and response to inactive state
-  parents.forEach((parent) => {
+  parents.forEach((parent, index) => {
     const content = parent.querySelector(".howitworks--content");
     const response = parent.querySelector(".howitworks--response");
     const line = parent.querySelector(".howitworks--line");
@@ -430,7 +430,15 @@ $(window).on("load", function () {
     if (content) gsap.set(content, { opacity: 0.3 });
     if (response) gsap.set(response, { height: 0, overflow: "hidden" });
     if (line) gsap.set(line, { width: "0%" });
-    if (img) gsap.set(img, { y: "100vh" });
+
+    // First image starts at 0, all others at 100vh
+    if (img) {
+      if (index === 0) {
+        gsap.set(img, { y: "0vh" });
+      } else {
+        gsap.set(img, { y: "100vh" });
+      }
+    }
   });
 
   triggers.forEach((trigger, index) => {
@@ -548,26 +556,37 @@ $(window).on("load", function () {
       });
     }
 
-    // Animate current image from 100vh to 0
-    if (img) {
-      gsap.to(img, {
-        y: "0vh",
-        ease: "none",
-        scrollTrigger: {
-          trigger: trigger,
-          start: "top bottom",
-          end: "bottom bottom",
-          scrub: true,
-        },
-      });
-    }
+    // Image animations during this trigger's scroll
 
-    // Animate previous image from 0 to -100vh
+    // Previous image: -50vh → -100vh
     if (index > 0 && parents[index - 1]) {
       const prevImg = parents[index - 1].querySelector(".howitworks--img");
       if (prevImg) {
-        gsap.to(prevImg, {
-          y: "-100vh",
+        gsap.fromTo(
+          prevImg,
+          { y: "-50vh" },
+          {
+            y: "-100vh",
+            ease: "none",
+            scrollTrigger: {
+              trigger: trigger,
+              start: "top bottom",
+              end: "bottom bottom",
+              scrub: true,
+            },
+          }
+        );
+      }
+    }
+
+    // Current image: starting position → -50vh
+    if (img) {
+      const startY = index === 0 ? "0vh" : "50vh";
+      gsap.fromTo(
+        img,
+        { y: startY },
+        {
+          y: "-50vh",
           ease: "none",
           scrollTrigger: {
             trigger: trigger,
@@ -575,7 +594,28 @@ $(window).on("load", function () {
             end: "bottom bottom",
             scrub: true,
           },
-        });
+        }
+      );
+    }
+
+    // Next image: 100vh → 50vh
+    if (index < parents.length - 1 && parents[index + 1]) {
+      const nextImg = parents[index + 1].querySelector(".howitworks--img");
+      if (nextImg) {
+        gsap.fromTo(
+          nextImg,
+          { y: "100vh" },
+          {
+            y: "50vh",
+            ease: "none",
+            scrollTrigger: {
+              trigger: trigger,
+              start: "top bottom",
+              end: "bottom bottom",
+              scrub: true,
+            },
+          }
+        );
       }
     }
   });
