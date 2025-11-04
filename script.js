@@ -722,7 +722,7 @@ $(window).on("load", function () {
             column,
             { yPercent: 0 },
             {
-              yPercent: -targetDigit * 100,
+              yPercent: -targetDigit * 10,
               duration: 1.5,
               ease: "power2.out",
               delay: index * 0.1,
