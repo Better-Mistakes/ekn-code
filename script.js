@@ -98,12 +98,13 @@ $(window).on("load", function () {
         currentSplit.revert();
         currentSplit = null;
 
-        // Update to next phrase (replace spaces with non-breaking spaces)
+        // Update to next phrase - replace spaces with span elements
         currentIndex = (currentIndex + 1) % phrases.length;
-        eyebrowElement.innerHTML = phrases[currentIndex].replace(
+        const textWithSpaces = phrases[currentIndex].replace(
           / /g,
-          "&nbsp;"
+          '<span class="space"> </span>'
         );
+        eyebrowElement.innerHTML = textWithSpaces;
 
         // Create fresh split for new text
         currentSplit = new SplitText(eyebrowElement, {

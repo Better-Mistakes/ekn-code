@@ -23,5 +23,9 @@ body {
 [animation="eyebrow"] .char {
   display: inline-block;
   letter-spacing: 0.05em;
+}
+
+[animation="eyebrow"] .space {
+  display: inline-block;
   white-space: pre;
 }
