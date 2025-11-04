@@ -432,23 +432,35 @@ $(window).on("load", function () {
     if (line) gsap.set(line, { width: "0%" });
   });
 
-  // Set initial positions for images
-  const initialPositions = ["0%", "calc(100% + 3rem)", "calc(200% + 6rem)"];
-  const finalPositions = ["calc(-200% - 6rem)", "calc(-100% - 3rem)", "0%"];
+  // Set initial positions for images using yPercent and y separately
+  const initialYPercent = [0, 100, 200];
+  const initialYRem = [0, 3, 6];
+  const finalYPercent = [-200, -100, 0];
+  const finalYRem = [-6, -3, 0];
 
   parents.forEach((parent, index) => {
     const img = parent.querySelector(".howitworks--img");
-    if (img && initialPositions[index]) {
-      gsap.set(img, { y: initialPositions[index] });
+    if (img) {
+      const remInPx =
+        initialYRem[index] *
+        parseFloat(getComputedStyle(document.documentElement).fontSize);
+      gsap.set(img, {
+        yPercent: initialYPercent[index],
+        y: remInPx,
+      });
     }
   });
 
   // Animate all images based on the parent scroll
   parents.forEach((parent, index) => {
     const img = parent.querySelector(".howitworks--img");
-    if (img && initialPositions[index] && finalPositions[index]) {
+    if (img) {
+      const remInPx =
+        finalYRem[index] *
+        parseFloat(getComputedStyle(document.documentElement).fontSize);
       gsap.to(img, {
-        y: finalPositions[index],
+        yPercent: finalYPercent[index],
+        y: remInPx,
         ease: "none",
         scrollTrigger: {
           trigger: triggersParent,
