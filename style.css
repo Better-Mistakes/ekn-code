@@ -77,11 +77,6 @@ body {
 }
 
 @media (max-width: 991px) {
-  .offers-slider {
-    overflow: hidden;
-    width: 100%;
-  }
-
   .offer-sliders-wrapper {
     display: flex;
     gap: 1.25rem;
