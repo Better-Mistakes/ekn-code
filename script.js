@@ -299,8 +299,6 @@ $(window).on("load", function () {
 
 // --------------------- Offer Slide Hover Animation (Desktop) --------------------- //
 (function () {
-  let swiperInstance = null;
-
   // Desktop hover functionality
   function initOfferSlides() {
     if (window.innerWidth <= 992) return;
@@ -403,42 +401,11 @@ $(window).on("load", function () {
   function initOfferSlider() {
     if (window.innerWidth > 992) return;
 
+    const slider = document.querySelector(".offers-slider");
     const sliderWrapper = document.querySelector(".offer-sliders-wrapper");
-    if (!sliderWrapper) return;
-
-    // Check if Swiper is available
-    if (typeof Swiper === "undefined") {
-      console.error("Swiper is not loaded");
-      return;
-    }
-
-    // Destroy existing instance if it exists
-    if (swiperInstance) {
-      swiperInstance.destroy(true, true);
-      swiperInstance = null;
-    }
-
-    // Initialize Swiper
-    swiperInstance = new Swiper(".offers-slider", {
-      slidesPerView: 1,
-      spaceBetween:
-        parseFloat(getComputedStyle(document.documentElement).fontSize) * 1.25, // 1.25rem
-      navigation: {
-        nextEl: ".offer-slider-btn.is--next",
-        prevEl: ".offer-slider-btn.is--prev",
-      },
-      on: {
-        init: function () {
-          updateSlideNumbers(this);
-        },
-        slideChange: function () {
-          updateSlideNumbers(this);
-        },
-      },
-    });
-  }
-
-  function updateSlideNumbers(swiper) {
+    const slides = document.querySelectorAll(".offer--slide");
+    const prevBtn = document.querySelector(".offer-slider-btn.is--prev");
+    const nextBtn = document.querySelector(".offer-slider-btn.is--next");
     const currentSlideNumber = document.querySelector(
       ".slide--number:first-child"
     );
@@ -446,17 +413,135 @@ $(window).on("load", function () {
       ".slide--number:last-child"
     );
 
+    if (!slider || !sliderWrapper || slides.length === 0) return;
+
+    let currentIndex = 0;
+    const totalSlides = slides.length;
+    const gap =
+      parseFloat(getComputedStyle(document.documentElement).fontSize) * 1.25; // 1.25rem
+
+    // Initialize slide numbers
     if (currentSlideNumber) {
-      currentSlideNumber.textContent = (swiper.activeIndex + 1)
-        .toString()
-        .padStart(2, "0");
+      currentSlideNumber.textContent = "01";
+    }
+    if (totalSlideNumber) {
+      totalSlideNumber.textContent = totalSlides.toString().padStart(2, "0");
     }
 
-    if (totalSlideNumber) {
-      totalSlideNumber.textContent = swiper.slides.length
-        .toString()
-        .padStart(2, "0");
+    function updateSlidePosition(animated = true) {
+      const slideWidth = slider.offsetWidth;
+      const offset = -(currentIndex * (slideWidth + gap));
+
+      if (animated) {
+        gsap.to(sliderWrapper, {
+          x: offset,
+          duration: 0.5,
+          ease: "power2.out",
+        });
+      } else {
+        gsap.set(sliderWrapper, { x: offset });
+      }
+
+      // Update slide numbers
+      if (currentSlideNumber) {
+        currentSlideNumber.textContent = (currentIndex + 1)
+          .toString()
+          .padStart(2, "0");
+      }
+
+      // Update button states
+      updateButtons();
     }
+
+    function updateButtons() {
+      if (prevBtn) {
+        if (currentIndex === 0) {
+          prevBtn.classList.add("is-disabled");
+        } else {
+          prevBtn.classList.remove("is-disabled");
+        }
+      }
+
+      if (nextBtn) {
+        if (currentIndex === totalSlides - 1) {
+          nextBtn.classList.add("is-disabled");
+        } else {
+          nextBtn.classList.remove("is-disabled");
+        }
+      }
+    }
+
+    // Button event listeners
+    if (prevBtn) {
+      prevBtn.addEventListener("click", () => {
+        if (currentIndex > 0) {
+          currentIndex--;
+          updateSlidePosition();
+        }
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener("click", () => {
+        if (currentIndex < totalSlides - 1) {
+          currentIndex++;
+          updateSlidePosition();
+        }
+      });
+    }
+
+    // Touch/swipe functionality
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let isDragging = false;
+    let startX = 0;
+    let currentTranslate = 0;
+    let prevTranslate = 0;
+
+    sliderWrapper.addEventListener("touchstart", (e) => {
+      touchStartX = e.touches[0].clientX;
+      isDragging = true;
+      startX = e.touches[0].clientX;
+      prevTranslate = currentTranslate;
+    });
+
+    sliderWrapper.addEventListener("touchmove", (e) => {
+      if (!isDragging) return;
+      const currentPosition = e.touches[0].clientX;
+      const diff = currentPosition - startX;
+      currentTranslate = prevTranslate + diff;
+      gsap.set(sliderWrapper, { x: currentTranslate });
+    });
+
+    sliderWrapper.addEventListener("touchend", (e) => {
+      touchEndX = e.changedTouches[0].clientX;
+      isDragging = false;
+
+      const diff = touchStartX - touchEndX;
+      const threshold = 50; // minimum swipe distance
+
+      if (Math.abs(diff) > threshold) {
+        if (diff > 0 && currentIndex < totalSlides - 1) {
+          // Swipe left - next slide
+          currentIndex++;
+        } else if (diff < 0 && currentIndex > 0) {
+          // Swipe right - previous slide
+          currentIndex--;
+        }
+      }
+
+      updateSlidePosition();
+    });
+
+    // Initialize
+    updateSlidePosition(false);
+
+    // Handle window resize
+    window.addEventListener("resize", () => {
+      if (window.innerWidth <= 992) {
+        updateSlidePosition(false);
+      }
+    });
   }
 
   // Initialize on load
@@ -474,14 +559,8 @@ $(window).on("load", function () {
     if (isDesktop !== wasDesktop) {
       wasDesktop = isDesktop;
       if (isDesktop) {
-        // Destroy slider and init desktop
-        if (swiperInstance) {
-          swiperInstance.destroy(true, true);
-          swiperInstance = null;
-        }
         initOfferSlides();
       } else {
-        // Init mobile slider
         initOfferSlider();
       }
     }
