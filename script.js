@@ -697,9 +697,13 @@ $(window).on("load", function () {
       const targetDigit = parseInt(targetString[i]);
       let columnHTML = "";
 
-      // Create column of digits from 0 to target
-      for (let j = 0; j <= targetDigit; j++) {
-        columnHTML += `<span class="digit-item">${j}</span>`;
+      // Always create 10 digits, starting from appropriate position
+      // If target is 9, start from 0; if 8, start from 9; if 7, start from 8, etc.
+      const startDigit = (targetDigit + 1) % 10;
+
+      for (let j = 0; j < 10; j++) {
+        const digit = (startDigit + j) % 10;
+        columnHTML += `<span class="digit-item">${digit}</span>`;
       }
 
       html += `<span class="digit-wrapper"><span class="digit-column">${columnHTML}</span></span>`;
@@ -716,13 +720,12 @@ $(window).on("load", function () {
         const columns = counter.querySelectorAll(".digit-column");
 
         columns.forEach((column, index) => {
-          const targetDigit = parseInt(targetString[index]);
-
+          // Always animate 9 steps (to reach the 10th digit which is the target)
           gsap.fromTo(
             column,
             { y: "0em" },
             {
-              y: `-${targetDigit * 1}em`,
+              y: "-9em",
               duration: 1.5,
               ease: "power2.out",
               delay: index * 0.1,
