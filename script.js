@@ -529,7 +529,23 @@ $(window).on("load", function () {
         if (isDragging && isHorizontalSwipe) {
           e.preventDefault(); // Prevent page scroll only for horizontal swipes
           const diff = currentX - startX;
-          currentTranslate = prevTranslate + diff;
+          const slideWidth = slider.offsetWidth;
+          const maxDrag = slideWidth + gap;
+
+          // Limit drag to one slide width in either direction
+          let limitedDiff = diff;
+          if (diff > maxDrag) limitedDiff = maxDrag;
+          if (diff < -maxDrag) limitedDiff = -maxDrag;
+
+          // Don't allow dragging beyond first/last slide
+          if (currentIndex === 0 && limitedDiff > 0) {
+            limitedDiff = limitedDiff * 0.3; // Rubber band effect at start
+          }
+          if (currentIndex === totalSlides - 1 && limitedDiff < 0) {
+            limitedDiff = limitedDiff * 0.3; // Rubber band effect at end
+          }
+
+          currentTranslate = prevTranslate + limitedDiff;
           gsap.set(sliderWrapper, { x: currentTranslate });
         }
       },
