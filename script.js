@@ -433,8 +433,8 @@ $(window).on("load", function () {
   });
 
   // Set initial positions for images
-  const initialPositions = ["0vh", "100vh", "200vh"];
-  const finalPositions = ["-200vh", "-100vh", "0vh"];
+  const initialPositions = ["0%", "calc(100% + 3rem)", "calc(200% + 6rem)"];
+  const finalPositions = ["calc(-200% - 6rem)", "calc(-100% - 3rem)", "0%"];
 
   parents.forEach((parent, index) => {
     const img = parent.querySelector(".howitworks--img");
