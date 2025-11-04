@@ -77,15 +77,16 @@ body {
 }
 
 @media (max-width: 991px) {
+  .offers-slider {
+    overflow: hidden;
+  }
+
   .offer-sliders-wrapper {
     display: flex;
-    gap: 1.25rem;
-    will-change: transform;
   }
 
   .offer--slide {
     flex-shrink: 0;
-    width: 100%;
   }
 
   .offer-slider-btn {
@@ -93,7 +94,7 @@ body {
     transition: opacity 0.3s ease;
   }
 
-  .offer-slider-btn.is-disabled {
+  .offer-slider-btn.swiper-button-disabled {
     opacity: 0.5;
     pointer-events: none;
   }
