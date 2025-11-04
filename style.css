@@ -17,9 +17,11 @@ body {
 [animation="eyebrow"] {
   overflow: hidden;
   display: inline-block;
+  white-space: nowrap;
 }
 
 [animation="eyebrow"] .char {
   display: inline-block;
   letter-spacing: 0.05em;
+  white-space: pre;
 }
