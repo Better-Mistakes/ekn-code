@@ -173,3 +173,19 @@ body {
   display: block;
   line-height: 1;
 }
+
+/* --------------------- Footer Accordion (Mobile) --------------------- */
+@media (max-width: 991px) {
+  .footer--title-parent {
+    cursor: pointer;
+  }
+
+  .footer--inner {
+    overflow: hidden;
+  }
+
+  .footer-title-icon {
+    transition: transform 0.3s ease;
+    will-change: transform;
+  }
+}

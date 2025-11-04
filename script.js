@@ -814,3 +814,121 @@ $(window).on("load", function () {
     });
   });
 })();
+
+// --------------------- Footer Accordion (Mobile) --------------------- //
+(function () {
+  function initFooterAccordion() {
+    // Only run on screens below 992px
+    if (window.innerWidth >= 992) return;
+
+    const titleParents = document.querySelectorAll(".footer--title-parent");
+    if (titleParents.length === 0) return;
+
+    let activeParent = null;
+
+    titleParents.forEach((titleParent) => {
+      const column = titleParent.closest(".footer--column");
+      if (!column) return;
+
+      const inner = column.querySelector(".footer--inner");
+      const icon = titleParent.querySelector(".footer-title-icon");
+
+      if (!inner) return;
+
+      // Initialize as closed
+      gsap.set(inner, { height: 0, overflow: "hidden" });
+      if (icon) gsap.set(icon, { rotation: 0 });
+
+      // Click handler
+      titleParent.addEventListener("click", () => {
+        const isActive = activeParent === titleParent;
+
+        // Close previously active item
+        if (activeParent && activeParent !== titleParent) {
+          const prevColumn = activeParent.closest(".footer--column");
+          const prevInner = prevColumn.querySelector(".footer--inner");
+          const prevIcon = activeParent.querySelector(".footer-title-icon");
+
+          gsap.to(prevInner, {
+            height: 0,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+
+          if (prevIcon) {
+            gsap.to(prevIcon, {
+              rotation: 0,
+              duration: 0.3,
+              ease: "power2.out",
+            });
+          }
+        }
+
+        // Toggle current item
+        if (isActive) {
+          // Close if already active
+          gsap.to(inner, {
+            height: 0,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+
+          if (icon) {
+            gsap.to(icon, {
+              rotation: 0,
+              duration: 0.3,
+              ease: "power2.out",
+            });
+          }
+
+          activeParent = null;
+        } else {
+          // Open
+          gsap.to(inner, {
+            height: "auto",
+            duration: 0.3,
+            ease: "power2.out",
+          });
+
+          if (icon) {
+            gsap.to(icon, {
+              rotation: 180,
+              duration: 0.3,
+              ease: "power2.out",
+            });
+          }
+
+          activeParent = titleParent;
+        }
+      });
+    });
+  }
+
+  // Initialize on load
+  initFooterAccordion();
+
+  // Reinitialize on resize
+  let wasMobile = window.innerWidth < 992;
+  window.addEventListener("resize", () => {
+    const isMobile = window.innerWidth < 992;
+    if (isMobile !== wasMobile) {
+      wasMobile = isMobile;
+
+      if (isMobile) {
+        initFooterAccordion();
+      } else {
+        // Reset all on desktop
+        const footerInners = document.querySelectorAll(".footer--inner");
+        const footerIcons = document.querySelectorAll(".footer-title-icon");
+
+        footerInners.forEach((inner) => {
+          gsap.set(inner, { height: "auto", overflow: "visible" });
+        });
+
+        footerIcons.forEach((icon) => {
+          gsap.set(icon, { rotation: 0 });
+        });
+      }
+    }
+  });
+})();
