@@ -726,7 +726,7 @@ $(window).on("load", function () {
             { y: "0em" },
             {
               y: "-9em",
-              duration: 1.5,
+              duration: 2,
               ease: "power2.out",
               delay: index * 0.1,
             }
