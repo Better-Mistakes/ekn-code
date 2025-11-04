@@ -64,7 +64,7 @@ body {
 @media (min-width: 992px) {
   .offer--slide {
     cursor: pointer;
-    transition: opacity 0.4s ease;
+    transition: opacity 0.2s ease;
   }
 
   .offer--slide-icon {

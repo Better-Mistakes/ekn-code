@@ -315,7 +315,7 @@ $(window).on("load", function () {
 
       gsap.to(slide, {
         opacity: 0.3,
-        duration: 0.4,
+        duration: 0.2,
         ease: "power2.out",
       });
 
@@ -323,7 +323,7 @@ $(window).on("load", function () {
         gsap.to(icon, {
           x: "-1rem",
           opacity: 0,
-          duration: 0.4,
+          duration: 0.2,
           ease: "power2.out",
         });
       }
@@ -331,7 +331,7 @@ $(window).on("load", function () {
       if (content) {
         gsap.to(content, {
           opacity: 0,
-          duration: 0.4,
+          duration: 0.2,
           ease: "power2.out",
         });
       }
@@ -344,7 +344,7 @@ $(window).on("load", function () {
 
       gsap.to(slide, {
         opacity: 1,
-        duration: 0.4,
+        duration: 0.2,
         ease: "power2.out",
       });
 
@@ -352,7 +352,7 @@ $(window).on("load", function () {
         gsap.to(icon, {
           x: "0rem",
           opacity: 1,
-          duration: 0.4,
+          duration: 0.2,
           ease: "power2.out",
         });
       }
@@ -360,7 +360,7 @@ $(window).on("load", function () {
       if (content) {
         gsap.to(content, {
           opacity: 1,
-          duration: 0.4,
+          duration: 0.2,
           ease: "power2.out",
         });
       }
