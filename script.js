@@ -296,3 +296,119 @@ $(window).on("load", function () {
     });
   });
 })();
+
+// --------------------- Offer Slide Hover Animation (Desktop) --------------------- //
+(function () {
+  // Only run on screens above 992px
+  function initOfferSlides() {
+    if (window.innerWidth <= 992) return;
+
+    const offerSlides = document.querySelectorAll(".offer--slide");
+    if (offerSlides.length === 0) return;
+
+    let activeSlide = null;
+
+    // Function to set a slide as inactive
+    function setInactive(slide) {
+      const icon = slide.querySelector(".offer--slide-icon");
+      const content = slide.querySelector(".offer--slide-content");
+
+      gsap.to(slide, {
+        opacity: 0.3,
+        duration: 0.4,
+        ease: "power2.out",
+      });
+
+      if (icon) {
+        gsap.to(icon, {
+          x: "-1rem",
+          opacity: 0,
+          duration: 0.4,
+          ease: "power2.out",
+        });
+      }
+
+      if (content) {
+        gsap.to(content, {
+          opacity: 0,
+          duration: 0.4,
+          ease: "power2.out",
+        });
+      }
+    }
+
+    // Function to set a slide as active
+    function setActive(slide) {
+      const icon = slide.querySelector(".offer--slide-icon");
+      const content = slide.querySelector(".offer--slide-content");
+
+      gsap.to(slide, {
+        opacity: 1,
+        duration: 0.4,
+        ease: "power2.out",
+      });
+
+      if (icon) {
+        gsap.to(icon, {
+          x: "0rem",
+          opacity: 1,
+          duration: 0.4,
+          ease: "power2.out",
+        });
+      }
+
+      if (content) {
+        gsap.to(content, {
+          opacity: 1,
+          duration: 0.4,
+          ease: "power2.out",
+        });
+      }
+
+      activeSlide = slide;
+    }
+
+    // Initialize all slides as inactive
+    offerSlides.forEach((slide) => {
+      const icon = slide.querySelector(".offer--slide-icon");
+      const content = slide.querySelector(".offer--slide-content");
+
+      gsap.set(slide, { opacity: 0.3 });
+      if (icon) gsap.set(icon, { x: "-1rem", opacity: 0 });
+      if (content) gsap.set(content, { opacity: 0 });
+    });
+
+    // Set first slide as active on load
+    if (offerSlides[0]) {
+      setActive(offerSlides[0]);
+    }
+
+    // Add hover listeners
+    offerSlides.forEach((slide) => {
+      slide.addEventListener("mouseenter", function () {
+        // If there's an active slide that's not this one, deactivate it
+        if (activeSlide && activeSlide !== slide) {
+          setInactive(activeSlide);
+        }
+
+        // Activate this slide
+        setActive(slide);
+      });
+    });
+  }
+
+  // Initialize on load
+  initOfferSlides();
+
+  // Reinitialize on resize if crossing the 992px threshold
+  let wasDesktop = window.innerWidth > 992;
+  window.addEventListener("resize", function () {
+    const isDesktop = window.innerWidth > 992;
+    if (isDesktop !== wasDesktop) {
+      wasDesktop = isDesktop;
+      if (isDesktop) {
+        initOfferSlides();
+      }
+    }
+  });
+})();
