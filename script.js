@@ -99,49 +99,67 @@ $(window).on("load", function () {
       });
     }
 
-    const chars = currentSplit.chars;
+    const oldChars = currentSplit.chars;
 
     // Animate out (move up -100%)
-    gsap.to(chars, {
+    gsap.to(oldChars, {
       yPercent: -100,
       opacity: 0,
       stagger: 0.03,
       duration: 0.4,
       ease: "power2.in",
+    });
+
+    // Prepare new text while old one is animating out
+    // Create a temporary container for the new text
+    const tempDiv = document.createElement("div");
+    tempDiv.style.position = "absolute";
+    tempDiv.style.top = "0";
+    tempDiv.style.left = "0";
+    tempDiv.style.width = "100%";
+
+    currentIndex = (currentIndex + 1) % phrases.length;
+    const textWithSpaces = phrases[currentIndex].replace(
+      / /g,
+      '<span class="space"> </span>'
+    );
+    tempDiv.innerHTML = textWithSpaces;
+    eyebrowElement.appendChild(tempDiv);
+
+    // Split the new text
+    const newSplit = new SplitText(tempDiv, {
+      type: "chars",
+      charsClass: "char",
+    });
+    const newChars = newSplit.chars;
+
+    // Set initial state (below, hidden)
+    gsap.set(newChars, { yPercent: 100, opacity: 0 });
+
+    // Animate in simultaneously (move to 0%)
+    gsap.to(newChars, {
+      yPercent: 0,
+      opacity: 1,
+      stagger: 0.03,
+      duration: 0.4,
+      ease: "power2.out",
       onComplete: () => {
-        // Revert the split to get back plain text
+        // Clean up old split
         currentSplit.revert();
-        currentSplit = null;
 
-        // Update to next phrase - replace spaces with span elements
-        currentIndex = (currentIndex + 1) % phrases.length;
-        const textWithSpaces = phrases[currentIndex].replace(
-          / /g,
-          '<span class="space"> </span>'
-        );
-        eyebrowElement.innerHTML = textWithSpaces;
+        // Replace eyebrow content with new text
+        eyebrowElement.innerHTML = tempDiv.innerHTML;
 
-        // Create fresh split for new text
+        // Create new split for the next cycle
         currentSplit = new SplitText(eyebrowElement, {
           type: "chars",
           charsClass: "char",
         });
-        const newChars = currentSplit.chars;
 
-        // Set initial state (below, hidden)
-        gsap.set(newChars, { yPercent: 100, opacity: 0 });
+        isAnimating = false;
 
-        // Animate in (move to 0%)
-        gsap.to(newChars, {
-          yPercent: 0,
-          opacity: 1,
-          stagger: 0.03,
-          duration: 0.4,
-          ease: "power2.out",
-          onComplete: () => {
-            isAnimating = false;
-          },
-        });
+        // Wait 2 seconds before next animation
+        setTimeout(animateTextChange, 2000);
       },
     });
   }
@@ -149,6 +167,6 @@ $(window).on("load", function () {
   // Initialize the text on load
   initializeText();
 
-  // Start the cycling animation
-  setInterval(animateTextChange, 2000);
+  // Start the cycling animation after 2 seconds
+  setTimeout(animateTextChange, 2000);
 })();
