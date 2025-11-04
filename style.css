@@ -93,3 +93,7 @@ body {
 .howitworks--img {
   will-change: transform;
 }
+
+.howitworks--img--inner {
+  will-change: transform;
+}

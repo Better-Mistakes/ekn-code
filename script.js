@@ -470,6 +470,12 @@ $(window).on("load", function () {
         },
       });
     }
+
+    // Initialize inner images
+    const imgInner = parent.querySelector(".howitworks--img--inner");
+    if (imgInner) {
+      gsap.set(imgInner, { yPercent: 0 });
+    }
   });
 
   triggers.forEach((trigger, index) => {
@@ -576,6 +582,21 @@ $(window).on("load", function () {
     if (line) {
       gsap.to(line, {
         width: "100%",
+        ease: "none",
+        scrollTrigger: {
+          trigger: trigger,
+          start: "top bottom",
+          end: "bottom bottom",
+          scrub: true,
+        },
+      });
+    }
+
+    // Animate inner image for this trigger
+    const imgInner = parent.querySelector(".howitworks--img--inner");
+    if (imgInner) {
+      gsap.to(imgInner, {
+        yPercent: -20,
         ease: "none",
         scrollTrigger: {
           trigger: trigger,
