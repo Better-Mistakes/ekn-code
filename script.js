@@ -490,6 +490,9 @@ $(window).on("load", function () {
 
 // --------------------- How It Works Scroll Animation --------------------- //
 (function () {
+  // Only run on screens above 992px
+  if (window.innerWidth <= 992) return;
+
   const triggersParent = document.querySelector(".howitworks--triggers-parent");
   const triggers = document.querySelectorAll(".howitworks--trigger");
   const parents = document.querySelectorAll(".howitworks--parent");

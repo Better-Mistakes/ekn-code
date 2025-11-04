@@ -88,25 +88,49 @@ body {
 }
 
 /* --------------------- How It Works Scroll Animation Styles --------------------- */
-.howitworks--content {
-  will-change: opacity;
+@media (min-width: 992px) {
+  .howitworks--content {
+    will-change: opacity;
+  }
+
+  .howitworks--response {
+    overflow: hidden;
+    will-change: height;
+  }
+
+  .howitworks--line {
+    will-change: width;
+  }
+
+  .howitworks--img {
+    will-change: transform;
+  }
+
+  .howitworks--img--inner {
+    will-change: transform;
+  }
 }
 
-.howitworks--response {
-  overflow: hidden;
-  will-change: height;
-}
+@media (max-width: 991px) {
+  .howitworks--content {
+    opacity: 1 !important;
+  }
 
-.howitworks--line {
-  will-change: width;
-}
+  .howitworks--response {
+    height: auto !important;
+  }
 
-.howitworks--img {
-  will-change: transform;
-}
+  .howitworks--line {
+    width: 100% !important;
+  }
 
-.howitworks--img--inner {
-  will-change: transform;
+  .howitworks--img {
+    transform: none !important;
+  }
+
+  .howitworks--img--inner {
+    transform: none !important;
+  }
 }
 
 /* --------------------- What Offers Hover Circle Styles --------------------- */
