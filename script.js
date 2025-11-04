@@ -75,7 +75,10 @@ $(window).on("load", function () {
     isAnimating = true;
 
     // Split current text into characters
-    const split = new SplitText(eyebrowElement, { type: "chars" });
+    const split = new SplitText(eyebrowElement, {
+      type: "chars",
+      charsClass: "char",
+    });
     const chars = split.chars;
 
     // Animate out (move up -100%)
@@ -86,12 +89,21 @@ $(window).on("load", function () {
       duration: 0.4,
       ease: "power2.in",
       onComplete: () => {
-        // Update to next phrase
+        // Clean up old split
+        split.revert();
+
+        // Update to next phrase (replace spaces with non-breaking spaces)
         currentIndex = (currentIndex + 1) % phrases.length;
-        eyebrowElement.textContent = phrases[currentIndex];
+        eyebrowElement.innerHTML = phrases[currentIndex].replace(
+          / /g,
+          "&nbsp;"
+        );
 
         // Split new text into characters
-        const newSplit = new SplitText(eyebrowElement, { type: "chars" });
+        const newSplit = new SplitText(eyebrowElement, {
+          type: "chars",
+          charsClass: "char",
+        });
         const newChars = newSplit.chars;
 
         // Set initial state (below, hidden)
@@ -105,8 +117,6 @@ $(window).on("load", function () {
           duration: 0.4,
           ease: "power2.out",
           onComplete: () => {
-            // Clean up SplitText
-            newSplit.revert();
             isAnimating = false;
           },
         });
