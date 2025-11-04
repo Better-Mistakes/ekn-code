@@ -54,3 +54,66 @@ $(window).on("load", function () {
   // Initialize on load
   handleNavbarScroll();
 })();
+
+// --------------------- Eyebrow Text Cycling Animation --------------------- //
+(function () {
+  const eyebrowElement = document.querySelector('[animation="eyebrow"]');
+
+  if (!eyebrowElement) return;
+
+  const phrases = [
+    "From field to office",
+    "From data to decision",
+    "From risk to reliability",
+  ];
+
+  let currentIndex = 0;
+  let isAnimating = false;
+
+  function animateTextChange() {
+    if (isAnimating) return;
+    isAnimating = true;
+
+    // Split current text into characters
+    const split = new SplitText(eyebrowElement, { type: "chars" });
+    const chars = split.chars;
+
+    // Animate out (move up -100%)
+    gsap.to(chars, {
+      yPercent: -100,
+      opacity: 0,
+      stagger: 0.03,
+      duration: 0.4,
+      ease: "power2.in",
+      onComplete: () => {
+        // Update to next phrase
+        currentIndex = (currentIndex + 1) % phrases.length;
+        eyebrowElement.textContent = phrases[currentIndex];
+
+        // Split new text into characters
+        const newSplit = new SplitText(eyebrowElement, { type: "chars" });
+        const newChars = newSplit.chars;
+
+        // Set initial state (below, hidden)
+        gsap.set(newChars, { yPercent: 100, opacity: 0 });
+
+        // Animate in (move to 0%)
+        gsap.to(newChars, {
+          yPercent: 0,
+          opacity: 1,
+          stagger: 0.03,
+          duration: 0.4,
+          ease: "power2.out",
+          onComplete: () => {
+            // Clean up SplitText
+            newSplit.revert();
+            isAnimating = false;
+          },
+        });
+      },
+    });
+  }
+
+  // Start the cycling animation
+  setInterval(animateTextChange, 2000);
+})();

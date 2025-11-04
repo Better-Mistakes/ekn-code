@@ -12,3 +12,13 @@ body {
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
 }
+
+/* --------------------- Eyebrow Animation Styles --------------------- */
+[animation="eyebrow"] {
+  overflow: hidden;
+  display: inline-block;
+}
+
+[animation="eyebrow"] .char {
+  display: inline-block;
+}
