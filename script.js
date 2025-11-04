@@ -806,7 +806,7 @@ $(window).on("load", function () {
               y: "-9em",
               duration: 2,
               ease: "power2.out",
-              delay: index * 0.1,
+              delay: 0.4 + index * 0.1,
             }
           );
         });
