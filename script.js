@@ -596,7 +596,7 @@ $(window).on("load", function () {
     const imgInner = parent.querySelector(".howitworks--img--inner");
     if (imgInner) {
       gsap.to(imgInner, {
-        yPercent: -20,
+        yPercent: -10,
         ease: "none",
         scrollTrigger: {
           trigger: trigger,
