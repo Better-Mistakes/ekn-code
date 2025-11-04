@@ -50,3 +50,12 @@ body {
   top: 0;
   left: 0;
 }
+
+.lines {
+  position: relative;
+  overflow: hidden;
+}
+
+.hover--circle.is--100 {
+  transform: scale(1);
+}

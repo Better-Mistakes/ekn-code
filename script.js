@@ -226,4 +226,73 @@ $(window).on("load", function () {
       });
     });
   });
+
+  // Handle .hover--circle.is--100 inside .lines
+  const lines = gridTrusted.querySelectorAll(".lines");
+
+  lines.forEach((line) => {
+    const hoverCircle = line.querySelector(".hover--circle.is--100");
+
+    if (!hoverCircle) return;
+
+    // Initially hide the circle
+    gsap.set(hoverCircle, { opacity: 0 });
+  });
+
+  // Track mouse movement on the entire grid--trusted area
+  gridTrusted.addEventListener("mousemove", function (e) {
+    lines.forEach((line) => {
+      const hoverCircle = line.querySelector(".hover--circle.is--100");
+
+      if (!hoverCircle) return;
+
+      const rect = line.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      // Center the circle on the cursor
+      const circleSize = 10; // 10rem
+      const offsetX =
+        x -
+        (circleSize / 2) *
+          parseFloat(getComputedStyle(document.documentElement).fontSize);
+      const offsetY =
+        y -
+        (circleSize / 2) *
+          parseFloat(getComputedStyle(document.documentElement).fontSize);
+
+      gsap.to(hoverCircle, {
+        x: offsetX,
+        y: offsetY,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    });
+  });
+
+  gridTrusted.addEventListener("mouseenter", function () {
+    lines.forEach((line) => {
+      const hoverCircle = line.querySelector(".hover--circle.is--100");
+      if (hoverCircle) {
+        gsap.to(hoverCircle, {
+          opacity: 1,
+          duration: 0.3,
+          ease: "power2.out",
+        });
+      }
+    });
+  });
+
+  gridTrusted.addEventListener("mouseleave", function () {
+    lines.forEach((line) => {
+      const hoverCircle = line.querySelector(".hover--circle.is--100");
+      if (hoverCircle) {
+        gsap.to(hoverCircle, {
+          opacity: 0,
+          duration: 0.3,
+          ease: "power2.out",
+        });
+      }
+    });
+  });
 })();
