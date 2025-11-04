@@ -170,3 +170,60 @@ $(window).on("load", function () {
   // Start the cycling animation after 2 seconds
   setTimeout(animateTextChange, 2000);
 })();
+
+// --------------------- Hover Circle Follow Mouse --------------------- //
+(function () {
+  const gridTrusted = document.querySelector(".grid--trusted");
+
+  if (!gridTrusted) return;
+
+  const logoParents = gridTrusted.querySelectorAll(".trusted--logo-parent");
+
+  logoParents.forEach((parent) => {
+    const hoverCircle = parent.querySelector(".hover--circle");
+
+    if (!hoverCircle) return;
+
+    parent.addEventListener("mousemove", function (e) {
+      const rect = parent.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      // Center the circle on the cursor (subtract half the circle size)
+      const circleSize = 10; // 10rem
+      const offsetX =
+        x -
+        (circleSize / 2) *
+          parseFloat(getComputedStyle(document.documentElement).fontSize);
+      const offsetY =
+        y -
+        (circleSize / 2) *
+          parseFloat(getComputedStyle(document.documentElement).fontSize);
+
+      gsap.to(hoverCircle, {
+        x: offsetX,
+        y: offsetY,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    });
+
+    parent.addEventListener("mouseenter", function () {
+      gsap.to(hoverCircle, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    });
+
+    parent.addEventListener("mouseleave", function () {
+      gsap.to(hoverCircle, {
+        opacity: 0,
+        scale: 0.8,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    });
+  });
+})();

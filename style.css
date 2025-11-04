@@ -31,3 +31,22 @@ body {
   display: inline-block;
   white-space: pre;
 }
+
+/* --------------------- Hover Circle Styles --------------------- */
+.trusted--logo-parent {
+  position: relative;
+  overflow: hidden;
+}
+
+.hover--circle {
+  position: absolute;
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.8);
+  will-change: transform, opacity;
+  top: 0;
+  left: 0;
+}
