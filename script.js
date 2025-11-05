@@ -464,15 +464,11 @@ $(window).on("load", function () {
     );
 
     if (currentSlideNumber) {
-      currentSlideNumber.textContent = (swiper.activeIndex + 1)
-        .toString()
-        .padStart(2, "0");
+      currentSlideNumber.textContent = swiper.activeIndex + 1;
     }
 
     if (totalSlideNumber) {
-      totalSlideNumber.textContent = swiper.slides.length
-        .toString()
-        .padStart(2, "0");
+      totalSlideNumber.textContent = swiper.slides.length;
     }
   }
 
