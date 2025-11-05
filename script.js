@@ -664,17 +664,36 @@ $(window).on("load", function () {
         },
       });
     }
+  });
 
-    // Animate inner image for this trigger
-    const img = parent.querySelector(".howitworks--img");
+  // Animate inner images with specific triggers for each parent
+  const section = document.querySelector(".section.is--howworks");
+
+  parents.forEach((parent, index) => {
     const imgInner = parent.querySelector(".howitworks--img--inner");
-    if (img && imgInner) {
+    if (!imgInner) return;
+
+    let animationTrigger;
+
+    // Set trigger based on parent index
+    if (index === 0) {
+      // First parent: trigger is .section.is--howworks
+      animationTrigger = section;
+    } else if (index === 1) {
+      // Second parent: trigger is .howitworks--trigger:nth-child(1)
+      animationTrigger = triggers[0];
+    } else if (index === 2) {
+      // Third parent: trigger is .howitworks--trigger:nth-child(2)
+      animationTrigger = triggers[1];
+    }
+
+    if (animationTrigger) {
       gsap.to(imgInner, {
         yPercent: -10,
         filter: "blur(0rem)",
         ease: "none",
         scrollTrigger: {
-          trigger: img,
+          trigger: animationTrigger,
           start: "top bottom",
           end: "top center",
           scrub: true,
