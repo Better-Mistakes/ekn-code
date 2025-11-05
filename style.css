@@ -85,8 +85,18 @@ body {
     pointer-events: none;
   }
 
+  .offers-slider .swiper-wrapper {
+    padding-left: calc((100vw - 78.66vw) / 2);
+    padding-right: calc((100vw - 78.66vw) / 2);
+  }
+
   .offers-slider .swiper-slide {
     width: 78.66vw;
+  }
+
+  /* Pull first slide back to left edge */
+  .offers-slider .swiper-slide:first-child {
+    margin-left: calc(-1 * (100vw - 78.66vw) / 2);
   }
 }
 
