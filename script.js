@@ -673,29 +673,46 @@ $(window).on("load", function () {
     const imgInner = parent.querySelector(".howitworks--img--inner");
     if (!imgInner) return;
 
-    let animationTrigger;
-
-    // Set trigger based on parent index
     if (index === 0) {
       // First parent: trigger is .section.is--howworks
-      animationTrigger = section;
-    } else if (index === 1) {
-      // Second parent: trigger is .howitworks--trigger:nth-child(1)
-      animationTrigger = triggers[0];
-    } else if (index === 2) {
-      // Third parent: trigger is .howitworks--trigger:nth-child(2)
-      animationTrigger = triggers[1];
-    }
-
-    if (animationTrigger) {
       gsap.to(imgInner, {
         yPercent: -10,
         filter: "blur(0rem)",
         ease: "none",
         scrollTrigger: {
-          trigger: animationTrigger,
+          trigger: section,
           start: "top bottom",
           end: "top center",
+          scrub: true,
+          markers: true,
+        },
+      });
+    } else if (index === 1) {
+      // Second parent: trigger is .howitworks--triggers-parent
+      // top bottom -> top center: blur 10rem to 0rem
+      gsap.to(imgInner, {
+        yPercent: -10,
+        filter: "blur(0rem)",
+        ease: "none",
+        scrollTrigger: {
+          trigger: triggersParent,
+          start: "top bottom",
+          end: "top center",
+          scrub: true,
+          markers: true,
+        },
+      });
+    } else if (index === 2) {
+      // Third parent: trigger is .howitworks--triggers-parent
+      // center bottom -> bottom bottom: blur 10rem to 0rem
+      gsap.to(imgInner, {
+        yPercent: -10,
+        filter: "blur(0rem)",
+        ease: "none",
+        scrollTrigger: {
+          trigger: triggersParent,
+          start: "center bottom",
+          end: "bottom bottom",
           scrub: true,
           markers: true,
         },
