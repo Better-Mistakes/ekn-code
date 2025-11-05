@@ -678,6 +678,7 @@ $(window).on("load", function () {
           start: "top bottom",
           end: "top center",
           scrub: true,
+          markers: true,
         },
       });
     }
