@@ -7,9 +7,8 @@ $(window).on("load", function () {
 // --------------------- Navbar Scroll Behavior --------------------- //
 (function () {
   const navbar = document.querySelector(".navbar");
-  const navbarBg = document.querySelector(".navbar--bg");
 
-  if (!navbar || !navbarBg) return;
+  if (!navbar) return;
 
   let lastScrollY = window.scrollY;
   let isScrollingDown = false;
@@ -18,10 +17,6 @@ $(window).on("load", function () {
   function handleNavbarScroll() {
     const currentScrollY = window.scrollY;
     isScrollingDown = currentScrollY > lastScrollY;
-
-    // Calculate opacity for navbar--bg (0 to 1 over 25vh)
-    const bgOpacity = Math.min(currentScrollY / scrollThreshold, 1);
-    navbarBg.style.opacity = bgOpacity;
 
     // Navbar visibility logic
     if (currentScrollY < scrollThreshold) {
