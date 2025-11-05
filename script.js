@@ -712,7 +712,7 @@ $(window).on("load", function () {
         scrollTrigger: {
           trigger: triggersParent,
           start: "center bottom",
-          end: "bottom bottom",
+          end: "center center",
           scrub: true,
           markers: true,
         },
