@@ -106,7 +106,7 @@ body {
   }
 
   .howitworks--img--inner {
-    will-change: transform;
+    will-change: transform, filter;
   }
 }
 

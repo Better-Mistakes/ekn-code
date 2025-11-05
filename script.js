@@ -547,7 +547,7 @@ $(window).on("load", function () {
     // Initialize inner images
     const imgInner = parent.querySelector(".howitworks--img--inner");
     if (imgInner) {
-      gsap.set(imgInner, { yPercent: 0 });
+      gsap.set(imgInner, { yPercent: 0, filter: "blur(10rem)" });
     }
   });
 
@@ -670,11 +670,12 @@ $(window).on("load", function () {
     if (imgInner) {
       gsap.to(imgInner, {
         yPercent: -10,
+        filter: "blur(0rem)",
         ease: "none",
         scrollTrigger: {
           trigger: trigger,
           start: "top bottom",
-          end: "bottom bottom",
+          end: "top center",
           scrub: true,
         },
       });
