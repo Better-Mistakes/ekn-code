@@ -418,6 +418,9 @@ $(window).on("load", function () {
       slidesPerView: "auto",
       spaceBetween:
         parseFloat(getComputedStyle(document.documentElement).fontSize) * 1.25, // 1.25rem
+      centeredSlides: true,
+      centeredSlidesBounds: true,
+      initialSlide: 0,
       navigation: {
         nextEl: ".offer-slider-btn.is--next",
         prevEl: ".offer-slider-btn.is--prev",
