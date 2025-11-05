@@ -84,6 +84,10 @@ body {
     opacity: 0.5;
     pointer-events: none;
   }
+
+  .offers-slider .swiper-slide {
+    width: 78.66vw;
+  }
 }
 
 /* --------------------- How It Works Scroll Animation Styles --------------------- */

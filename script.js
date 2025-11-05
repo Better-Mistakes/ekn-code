@@ -415,9 +415,11 @@ $(window).on("load", function () {
 
     // Initialize Swiper
     swiperInstance = new Swiper(".offers-slider", {
-      slidesPerView: 1,
+      slidesPerView: "auto",
       spaceBetween:
         parseFloat(getComputedStyle(document.documentElement).fontSize) * 1.25, // 1.25rem
+      centeredSlides: true,
+      centeredSlidesBounds: true,
       navigation: {
         nextEl: ".offer-slider-btn.is--next",
         prevEl: ".offer-slider-btn.is--prev",
