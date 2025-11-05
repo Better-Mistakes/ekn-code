@@ -666,14 +666,15 @@ $(window).on("load", function () {
     }
 
     // Animate inner image for this trigger
+    const img = parent.querySelector(".howitworks--img");
     const imgInner = parent.querySelector(".howitworks--img--inner");
-    if (imgInner) {
+    if (img && imgInner) {
       gsap.to(imgInner, {
         yPercent: -10,
         filter: "blur(0rem)",
         ease: "none",
         scrollTrigger: {
-          trigger: trigger,
+          trigger: img,
           start: "top bottom",
           end: "top center",
           scrub: true,
