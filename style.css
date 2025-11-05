@@ -85,6 +85,25 @@ body {
     pointer-events: none;
   }
 
+  .offers-slider {
+    transition: margin 0.5s ease-in-out;
+  }
+
+  .offers-slider.is--first {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .offers-slider.is--middle {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .offers-slider.is--last {
+    margin-left: auto;
+    margin-right: 0;
+  }
+
   .offers-slider .swiper-slide {
     width: 78.66vw;
   }

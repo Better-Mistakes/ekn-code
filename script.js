@@ -418,9 +418,6 @@ $(window).on("load", function () {
       slidesPerView: "auto",
       spaceBetween:
         parseFloat(getComputedStyle(document.documentElement).fontSize) * 1.25, // 1.25rem
-      centeredSlides: true,
-      centeredSlidesBounds: true,
-      initialSlide: 0,
       navigation: {
         nextEl: ".offer-slider-btn.is--next",
         prevEl: ".offer-slider-btn.is--prev",
@@ -428,12 +425,34 @@ $(window).on("load", function () {
       on: {
         init: function () {
           updateSlideNumbers(this);
+          updateSliderMargins(this);
         },
         slideChange: function () {
           updateSlideNumbers(this);
+          updateSliderMargins(this);
         },
       },
     });
+
+    // Function to update slider margins based on active slide
+    function updateSliderMargins(swiper) {
+      const sliderEl = document.querySelector(".offers-slider");
+      if (!sliderEl) return;
+
+      const isFirstSlide = swiper.activeIndex === 0;
+      const isLastSlide = swiper.activeIndex === swiper.slides.length - 1;
+
+      // Remove all classes first
+      sliderEl.classList.remove("is--first", "is--middle", "is--last");
+
+      if (isFirstSlide) {
+        sliderEl.classList.add("is--first");
+      } else if (isLastSlide) {
+        sliderEl.classList.add("is--last");
+      } else {
+        sliderEl.classList.add("is--middle");
+      }
+    }
   }
 
   function updateSlideNumbers(swiper) {
