@@ -702,7 +702,6 @@ $(window).on("load", function () {
           start: "top bottom",
           end: "top center",
           scrub: true,
-          markers: true,
         },
       });
     } else if (index === 1) {
@@ -717,7 +716,6 @@ $(window).on("load", function () {
           start: "top bottom",
           end: "top center",
           scrub: true,
-          markers: true,
         },
       });
     } else if (index === 2) {
@@ -732,7 +730,6 @@ $(window).on("load", function () {
           start: "center bottom",
           end: "center center",
           scrub: true,
-          markers: true,
         },
       });
     }
