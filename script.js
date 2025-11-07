@@ -426,10 +426,12 @@ $(window).on("load", function () {
         init: function () {
           updateSlideNumbers(this);
           updateSliderMargins(this);
+          updateNavigationButtons(this);
         },
         slideChange: function () {
           updateSlideNumbers(this);
           updateSliderMargins(this);
+          updateNavigationButtons(this);
         },
       },
     });
@@ -451,6 +453,31 @@ $(window).on("load", function () {
         sliderEl.classList.add("is--last");
       } else {
         sliderEl.classList.add("is--middle");
+      }
+    }
+
+    // Function to update navigation buttons disabled state
+    function updateNavigationButtons(swiper) {
+      const prevBtn = document.querySelector(".offer-slider-btn.is--prev");
+      const nextBtn = document.querySelector(".offer-slider-btn.is--next");
+
+      if (!prevBtn || !nextBtn) return;
+
+      const isFirstSlide = swiper.activeIndex === 0;
+      const isLastSlide = swiper.activeIndex === swiper.slides.length - 1;
+
+      // Update prev button
+      if (isFirstSlide) {
+        prevBtn.classList.add("swiper-button-disabled");
+      } else {
+        prevBtn.classList.remove("swiper-button-disabled");
+      }
+
+      // Update next button
+      if (isLastSlide) {
+        nextBtn.classList.add("swiper-button-disabled");
+      } else {
+        nextBtn.classList.remove("swiper-button-disabled");
       }
     }
   }
