@@ -421,6 +421,7 @@ $(window).on("load", function () {
       navigation: {
         nextEl: ".offer-slider-btn.is--next",
         prevEl: ".offer-slider-btn.is--prev",
+        disabledClass: "swiper-button-disabled-custom", // Use custom class to prevent Swiper from managing it
       },
       on: {
         init: function () {
