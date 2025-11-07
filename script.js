@@ -432,8 +432,12 @@ $(window).on("load", function () {
         slideChange: function () {
           updateSlideNumbers(this);
           updateSliderMargins(this);
+          updateNavigationButtons(this);
         },
-        slideChangeTransitionStart: function () {
+        slideChangeTransitionEnd: function () {
+          updateNavigationButtons(this);
+        },
+        touchEnd: function () {
           updateNavigationButtons(this);
         },
         reachBeginning: function () {
@@ -475,27 +479,30 @@ $(window).on("load", function () {
 
     // Function to update navigation buttons disabled state
     function updateNavigationButtons(swiper) {
-      const prevBtn = document.querySelector(".offer-slider-btn.is--prev");
-      const nextBtn = document.querySelector(".offer-slider-btn.is--next");
+      // Use requestAnimationFrame to ensure update happens after browser paint
+      requestAnimationFrame(() => {
+        const prevBtn = document.querySelector(".offer-slider-btn.is--prev");
+        const nextBtn = document.querySelector(".offer-slider-btn.is--next");
 
-      if (!prevBtn || !nextBtn) return;
+        if (!prevBtn || !nextBtn) return;
 
-      const isFirstSlide = swiper.activeIndex === 0;
-      const isLastSlide = swiper.activeIndex === swiper.slides.length - 1;
+        const isFirstSlide = swiper.activeIndex === 0;
+        const isLastSlide = swiper.activeIndex === swiper.slides.length - 1;
 
-      // Update prev button
-      if (isFirstSlide) {
-        prevBtn.classList.add("swiper-button-disabled");
-      } else {
-        prevBtn.classList.remove("swiper-button-disabled");
-      }
+        // Update prev button
+        if (isFirstSlide) {
+          prevBtn.classList.add("swiper-button-disabled");
+        } else {
+          prevBtn.classList.remove("swiper-button-disabled");
+        }
 
-      // Update next button
-      if (isLastSlide) {
-        nextBtn.classList.add("swiper-button-disabled");
-      } else {
-        nextBtn.classList.remove("swiper-button-disabled");
-      }
+        // Update next button
+        if (isLastSlide) {
+          nextBtn.classList.add("swiper-button-disabled");
+        } else {
+          nextBtn.classList.remove("swiper-button-disabled");
+        }
+      });
     }
   }
 
