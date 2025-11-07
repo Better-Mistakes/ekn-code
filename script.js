@@ -432,7 +432,23 @@ $(window).on("load", function () {
         slideChange: function () {
           updateSlideNumbers(this);
           updateSliderMargins(this);
+        },
+        slideChangeTransitionStart: function () {
           updateNavigationButtons(this);
+        },
+        reachBeginning: function () {
+          const prevBtn = document.querySelector(".offer-slider-btn.is--prev");
+          if (prevBtn) prevBtn.classList.add("swiper-button-disabled");
+        },
+        fromEdge: function () {
+          const prevBtn = document.querySelector(".offer-slider-btn.is--prev");
+          const nextBtn = document.querySelector(".offer-slider-btn.is--next");
+          if (prevBtn) prevBtn.classList.remove("swiper-button-disabled");
+          if (nextBtn) nextBtn.classList.remove("swiper-button-disabled");
+        },
+        reachEnd: function () {
+          const nextBtn = document.querySelector(".offer-slider-btn.is--next");
+          if (nextBtn) nextBtn.classList.add("swiper-button-disabled");
         },
       },
     });
