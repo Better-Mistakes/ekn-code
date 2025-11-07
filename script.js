@@ -421,38 +421,16 @@ $(window).on("load", function () {
       navigation: {
         nextEl: ".offer-slider-btn.is--next",
         prevEl: ".offer-slider-btn.is--prev",
-        disabledClass: "swiper-button-disabled-custom", // Use custom class to prevent Swiper from managing it
+        disabledClass: "swiper-button-disabled",
       },
       on: {
         init: function () {
           updateSlideNumbers(this);
           updateSliderMargins(this);
-          updateNavigationButtons(this);
         },
         slideChange: function () {
           updateSlideNumbers(this);
           updateSliderMargins(this);
-          updateNavigationButtons(this);
-        },
-        slideChangeTransitionEnd: function () {
-          updateNavigationButtons(this);
-        },
-        touchEnd: function () {
-          updateNavigationButtons(this);
-        },
-        reachBeginning: function () {
-          const prevBtn = document.querySelector(".offer-slider-btn.is--prev");
-          if (prevBtn) prevBtn.classList.add("swiper-button-disabled");
-        },
-        fromEdge: function () {
-          const prevBtn = document.querySelector(".offer-slider-btn.is--prev");
-          const nextBtn = document.querySelector(".offer-slider-btn.is--next");
-          if (prevBtn) prevBtn.classList.remove("swiper-button-disabled");
-          if (nextBtn) nextBtn.classList.remove("swiper-button-disabled");
-        },
-        reachEnd: function () {
-          const nextBtn = document.querySelector(".offer-slider-btn.is--next");
-          if (nextBtn) nextBtn.classList.add("swiper-button-disabled");
         },
       },
     });
@@ -475,34 +453,6 @@ $(window).on("load", function () {
       } else {
         sliderEl.classList.add("is--middle");
       }
-    }
-
-    // Function to update navigation buttons disabled state
-    function updateNavigationButtons(swiper) {
-      // Use requestAnimationFrame to ensure update happens after browser paint
-      requestAnimationFrame(() => {
-        const prevBtn = document.querySelector(".offer-slider-btn.is--prev");
-        const nextBtn = document.querySelector(".offer-slider-btn.is--next");
-
-        if (!prevBtn || !nextBtn) return;
-
-        const isFirstSlide = swiper.activeIndex === 0;
-        const isLastSlide = swiper.activeIndex === swiper.slides.length - 1;
-
-        // Update prev button
-        if (isFirstSlide) {
-          prevBtn.classList.add("swiper-button-disabled");
-        } else {
-          prevBtn.classList.remove("swiper-button-disabled");
-        }
-
-        // Update next button
-        if (isLastSlide) {
-          nextBtn.classList.add("swiper-button-disabled");
-        } else {
-          nextBtn.classList.remove("swiper-button-disabled");
-        }
-      });
     }
   }
 
