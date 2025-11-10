@@ -982,3 +982,51 @@ $(window).on("load", function () {
     }
   });
 })();
+
+// --------------------- Button Hover Animation --------------------- //
+(function () {
+  const buttons = document.querySelectorAll(".btn");
+
+  if (buttons.length === 0) return;
+
+  buttons.forEach((btn) => {
+    const hoverClose = btn.querySelector(".hover--close");
+    const hoverOpen = btn.querySelector(".hover--open");
+
+    if (!hoverClose || !hoverOpen) return;
+
+    // Initialize states
+    gsap.set(hoverClose, { width: "auto" });
+    gsap.set(hoverOpen, { width: 0 });
+
+    // Mouseenter event
+    btn.addEventListener("mouseenter", function () {
+      gsap.to(hoverClose, {
+        width: 0,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+
+      gsap.to(hoverOpen, {
+        width: "auto",
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    });
+
+    // Mouseleave event
+    btn.addEventListener("mouseleave", function () {
+      gsap.to(hoverClose, {
+        width: "auto",
+        duration: 0.3,
+        ease: "power2.out",
+      });
+
+      gsap.to(hoverOpen, {
+        width: 0,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    });
+  });
+})();

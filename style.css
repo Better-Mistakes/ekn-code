@@ -211,3 +211,16 @@ body {
     will-change: transform;
   }
 }
+
+/* --------------------- Button Hover Animation Styles --------------------- */
+.btn {
+  cursor: pointer;
+}
+
+.hover--close,
+.hover--open {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  will-change: width;
+}
