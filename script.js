@@ -457,6 +457,70 @@ $(window).on("load", function () {
   // Track the currently hovered item
   let currentlyHovered = null;
 
+  // Function to reset all items to default state
+  function resetAllItems() {
+    solutionItems.forEach((item) => {
+      gsap.to(item, {
+        opacity: 1,
+        duration: 0.3,
+        ease: "power4.out",
+      });
+
+      const svgItem = item.querySelector(".solution--svg-item");
+      const paragraph = item.querySelector(".paragraph-small-130");
+
+      if (svgItem) {
+        gsap.to(svgItem, {
+          opacity: 0,
+          duration: 0.3,
+          ease: "power4.out",
+        });
+      }
+
+      if (paragraph) {
+        gsap.to(paragraph, {
+          opacity: 1,
+          duration: 0.3,
+          ease: "power4.out",
+        });
+      }
+    });
+
+    currentlyHovered = null;
+  }
+
+  // Add mouseenter to parent container to detect when hovering in gaps
+  parentContainer.addEventListener("mouseenter", function (e) {
+    // Check if we're not hovering over a solution item
+    let isOverItem = false;
+    solutionItems.forEach((item) => {
+      if (item.contains(e.target) || item === e.target) {
+        isOverItem = true;
+      }
+    });
+
+    // If not over any item, reset all
+    if (!isOverItem && currentlyHovered) {
+      resetAllItems();
+    }
+  });
+
+  // Add mousemove to parent to detect when moving to gaps between items
+  parentContainer.addEventListener("mousemove", function (e) {
+    // Check if we're not hovering over a solution item
+    let isOverItem = false;
+    solutionItems.forEach((item) => {
+      if (item.contains(e.target) || item === e.target) {
+        isOverItem = true;
+      }
+    });
+
+    // If not over any item and we had one hovered, reset all
+    if (!isOverItem && currentlyHovered) {
+      resetAllItems();
+    }
+  });
+
   // Add mouseenter listeners to each item
   solutionItems.forEach((currentItem) => {
     const currentSvg = currentItem.querySelector(".solution--svg-item");
@@ -525,37 +589,9 @@ $(window).on("load", function () {
     });
   });
 
-  // Add mouseleave to the parent container, not individual items
+  // Add mouseleave to the parent container
   parentContainer.addEventListener("mouseleave", function () {
-    // Reset all items opacity
-    solutionItems.forEach((item) => {
-      gsap.to(item, {
-        opacity: 1,
-        duration: 0.3,
-        ease: "power4.out",
-      });
-
-      const svgItem = item.querySelector(".solution--svg-item");
-      const paragraph = item.querySelector(".paragraph-small-130");
-
-      if (svgItem) {
-        gsap.to(svgItem, {
-          opacity: 0,
-          duration: 0.3,
-          ease: "power4.out",
-        });
-      }
-
-      if (paragraph) {
-        gsap.to(paragraph, {
-          opacity: 1,
-          duration: 0.3,
-          ease: "power4.out",
-        });
-      }
-    });
-
-    currentlyHovered = null;
+    resetAllItems();
   });
 
   // Handle window resize
@@ -598,6 +634,61 @@ $(window).on("load", function () {
 
   // Track the currently hovered link
   let currentlyHovered = null;
+
+  // Function to reset all links to default state
+  function resetAllLinks() {
+    resourceLinks.forEach((link) => {
+      gsap.to(link, {
+        opacity: 1,
+        duration: 0.3,
+        ease: "power4.out",
+      });
+
+      const svg = link.querySelector(".resource--link-svg");
+
+      if (svg) {
+        gsap.to(svg, {
+          opacity: 0,
+          duration: 0.3,
+          ease: "power4.out",
+        });
+      }
+    });
+
+    currentlyHovered = null;
+  }
+
+  // Add mouseenter to parent container to detect when hovering in gaps
+  parentContainer.addEventListener("mouseenter", function (e) {
+    // Check if we're not hovering over a resource link
+    let isOverLink = false;
+    resourceLinks.forEach((link) => {
+      if (link.contains(e.target) || link === e.target) {
+        isOverLink = true;
+      }
+    });
+
+    // If not over any link, reset all
+    if (!isOverLink && currentlyHovered) {
+      resetAllLinks();
+    }
+  });
+
+  // Add mousemove to parent to detect when moving to gaps between links
+  parentContainer.addEventListener("mousemove", function (e) {
+    // Check if we're not hovering over a resource link
+    let isOverLink = false;
+    resourceLinks.forEach((link) => {
+      if (link.contains(e.target) || link === e.target) {
+        isOverLink = true;
+      }
+    });
+
+    // If not over any link and we had one hovered, reset all
+    if (!isOverLink && currentlyHovered) {
+      resetAllLinks();
+    }
+  });
 
   // Add mouseenter listeners to each link
   resourceLinks.forEach((currentLink) => {
@@ -647,28 +738,9 @@ $(window).on("load", function () {
     });
   });
 
-  // Add mouseleave to the parent container, not individual links
+  // Add mouseleave to the parent container
   parentContainer.addEventListener("mouseleave", function () {
-    // Reset all links opacity
-    resourceLinks.forEach((link) => {
-      gsap.to(link, {
-        opacity: 1,
-        duration: 0.3,
-        ease: "power4.out",
-      });
-
-      const svg = link.querySelector(".resource--link-svg");
-
-      if (svg) {
-        gsap.to(svg, {
-          opacity: 0,
-          duration: 0.3,
-          ease: "power4.out",
-        });
-      }
-    });
-
-    currentlyHovered = null;
+    resetAllLinks();
   });
 
   // Handle window resize
