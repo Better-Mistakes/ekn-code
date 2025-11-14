@@ -47,6 +47,18 @@ body {
   }
 }
 
+/* --------------------- Resource Links Hover (Desktop) --------------------- */
+@media (min-width: 992px) {
+  .resource--link {
+    cursor: pointer;
+    will-change: opacity;
+  }
+
+  .resource--link-svg {
+    will-change: opacity;
+  }
+}
+
 /* --------------------- Mobile Navbar Dropdown Styles --------------------- */
 @media (max-width: 991px) {
   .navbar--dropdown-trigger {

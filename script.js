@@ -443,6 +443,83 @@ $(window).on("load", function () {
   });
 })();
 
+// --------------------- Resource Links Hover (Desktop) --------------------- //
+(function () {
+  // Only run on screens above 992px
+  if (window.innerWidth <= 992) return;
+
+  const resourceLinks = document.querySelectorAll(".resource--link");
+
+  if (resourceLinks.length === 0) return;
+
+  // Initialize all items
+  resourceLinks.forEach((link) => {
+    const svg = link.querySelector(".resource--link-svg");
+    if (svg) {
+      gsap.set(svg, { opacity: 0 });
+    }
+  });
+
+  // Add hover listeners
+  resourceLinks.forEach((currentLink) => {
+    const currentSvg = currentLink.querySelector(".resource--link-svg");
+
+    currentLink.addEventListener("mouseenter", function () {
+      // Fade out other links
+      resourceLinks.forEach((link) => {
+        if (link !== currentLink) {
+          gsap.to(link, {
+            opacity: 0.3,
+            duration: 0.3,
+            ease: "power4.out",
+          });
+        }
+      });
+
+      // Show SVG for current link
+      if (currentSvg) {
+        gsap.to(currentSvg, {
+          opacity: 1,
+          duration: 0.3,
+          ease: "power4.out",
+        });
+      }
+    });
+
+    currentLink.addEventListener("mouseleave", function () {
+      // Reset all links opacity
+      resourceLinks.forEach((link) => {
+        gsap.to(link, {
+          opacity: 1,
+          duration: 0.3,
+          ease: "power4.out",
+        });
+      });
+
+      // Hide SVG for current link
+      if (currentSvg) {
+        gsap.to(currentSvg, {
+          opacity: 0,
+          duration: 0.3,
+          ease: "power4.out",
+        });
+      }
+    });
+  });
+
+  // Handle window resize
+  window.addEventListener("resize", function () {
+    if (window.innerWidth <= 992) {
+      // Reset everything on mobile
+      resourceLinks.forEach((link) => {
+        gsap.set(link, { opacity: 1 });
+        const svg = link.querySelector(".resource--link-svg");
+        if (svg) gsap.set(svg, { opacity: 0 });
+      });
+    }
+  });
+})();
+
 // --------------------- Mobile Hamburger Menu Animation --------------------- //
 (function () {
   const menuTrigger = document.querySelector(".menu--trigger");
