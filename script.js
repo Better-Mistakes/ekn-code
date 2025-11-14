@@ -558,6 +558,9 @@ $(window).on("load", function () {
     const menuItems = menuInner.querySelectorAll('[animate="navbar"]');
     const navButtons = navbar.querySelectorAll(".btn.is--nav");
 
+    // Disable scroll
+    document.body.style.overflow = "hidden";
+
     // Animate menu open icon
     gsap.to(menuOpen, {
       opacity: 0,
@@ -614,6 +617,9 @@ $(window).on("load", function () {
   function closeMenu() {
     const menuItems = menuInner.querySelectorAll('[animate="navbar"]');
     const navButtons = navbar.querySelectorAll(".btn.is--nav");
+
+    // Re-enable scroll
+    document.body.style.overflow = "";
 
     // Animate menu close icon
     gsap.to(menuClose, {
@@ -707,6 +713,7 @@ $(window).on("load", function () {
         gsap.set(menuInner, { display: "", x: "0vw" });
         const menuItems = menuInner.querySelectorAll('[animate="navbar"]');
         gsap.set(menuItems, { opacity: 1, y: "0rem" });
+        document.body.style.overflow = ""; // Re-enable scroll on desktop
         isMenuOpen = false;
       }
     }
