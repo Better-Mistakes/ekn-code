@@ -14,7 +14,7 @@ $(window).on("load", function () {
 
   let activeDropdown = null;
 
-  // Initialize all dropdown lists
+  // Initialize all dropdown lists and items
   dropdowns.forEach((dropdown) => {
     const list = dropdown.querySelector(".navbar--dropdown-list");
     if (list) {
@@ -22,6 +22,13 @@ $(window).on("load", function () {
         display: "none",
         height: 0,
         overflow: "hidden",
+      });
+
+      // Initialize dropdown items
+      const items = list.querySelectorAll('[animate="dropdownnav"]');
+      gsap.set(items, {
+        opacity: 0,
+        y: "1rem",
       });
     }
   });
@@ -42,7 +49,7 @@ $(window).on("load", function () {
   }
 
   // Function to open a dropdown
-  function openDropdown(dropdown) {
+  function openDropdown(dropdown, animate = false) {
     const list = dropdown.querySelector(".navbar--dropdown-list");
     if (!list) return;
 
@@ -54,6 +61,30 @@ $(window).on("load", function () {
       height: "auto",
       duration: 0.3,
       ease: "power4.out",
+    });
+
+    // Animate dropdown items with stagger if requested
+    if (animate) {
+      const items = list.querySelectorAll('[animate="dropdownnav"]');
+      gsap.to(items, {
+        opacity: 1,
+        y: "0rem",
+        duration: 0.4,
+        ease: "power4.out",
+        stagger: 0.05,
+      });
+    }
+  }
+
+  // Function to reset dropdown items
+  function resetDropdownItems(dropdown) {
+    const list = dropdown.querySelector(".navbar--dropdown-list");
+    if (!list) return;
+
+    const items = list.querySelectorAll('[animate="dropdownnav"]');
+    gsap.set(items, {
+      opacity: 0,
+      y: "1rem",
     });
   }
 
@@ -119,13 +150,16 @@ $(window).on("load", function () {
     if (!trigger) return;
 
     trigger.addEventListener("mouseenter", function () {
+      const isNewDropdown = activeDropdown !== dropdown;
+      const isFirstOpen = activeDropdown === null;
+
       // Close previously active dropdown if it exists
       if (activeDropdown && activeDropdown !== dropdown) {
         closeDropdown(activeDropdown);
       }
 
-      // Open current dropdown
-      openDropdown(dropdown);
+      // Open current dropdown (with animation only if it's the first open or a new dropdown)
+      openDropdown(dropdown, isFirstOpen || isNewDropdown);
       activateNavbarStyle();
       activeDropdown = dropdown;
     });
@@ -135,6 +169,8 @@ $(window).on("load", function () {
   navbar.addEventListener("mouseleave", function () {
     if (activeDropdown) {
       closeDropdown(activeDropdown);
+      // Reset items when fully leaving navbar
+      resetDropdownItems(activeDropdown);
       activeDropdown = null;
     }
     deactivateNavbarStyle();
