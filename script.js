@@ -428,6 +428,11 @@ $(window).on("load", function () {
 
   if (solutionItems.length === 0) return;
 
+  // Find the parent container of all solution items
+  const parentContainer = solutionItems[0].parentElement;
+
+  if (!parentContainer) return;
+
   // Initialize all items
   solutionItems.forEach((item) => {
     const svgItem = item.querySelector(".solution--svg-item");
@@ -441,12 +446,39 @@ $(window).on("load", function () {
     }
   });
 
-  // Add hover listeners
+  // Track the currently hovered item
+  let currentlyHovered = null;
+
+  // Add mouseenter listeners to each item
   solutionItems.forEach((currentItem) => {
     const currentSvg = currentItem.querySelector(".solution--svg-item");
     const currentParagraph = currentItem.querySelector(".paragraph-small-130");
 
     currentItem.addEventListener("mouseenter", function () {
+      // If there was a previously hovered item, reset it
+      if (currentlyHovered && currentlyHovered !== currentItem) {
+        const prevSvg = currentlyHovered.querySelector(".solution--svg-item");
+        const prevParagraph = currentlyHovered.querySelector(
+          ".paragraph-small-130"
+        );
+
+        if (prevSvg) {
+          gsap.to(prevSvg, {
+            opacity: 0,
+            duration: 0.3,
+            ease: "power4.out",
+          });
+        }
+
+        if (prevParagraph) {
+          gsap.to(prevParagraph, {
+            opacity: 1,
+            duration: 0.3,
+            ease: "power4.out",
+          });
+        }
+      }
+
       // Fade out other items
       solutionItems.forEach((item) => {
         if (item !== currentItem) {
@@ -474,35 +506,42 @@ $(window).on("load", function () {
           ease: "power4.out",
         });
       }
-    });
 
-    currentItem.addEventListener("mouseleave", function () {
-      // Reset all items opacity
-      solutionItems.forEach((item) => {
-        gsap.to(item, {
-          opacity: 1,
-          duration: 0.3,
-          ease: "power4.out",
-        });
+      currentlyHovered = currentItem;
+    });
+  });
+
+  // Add mouseleave to the parent container, not individual items
+  parentContainer.addEventListener("mouseleave", function () {
+    // Reset all items opacity
+    solutionItems.forEach((item) => {
+      gsap.to(item, {
+        opacity: 1,
+        duration: 0.3,
+        ease: "power4.out",
       });
 
-      // Hide SVG and show paragraph for current item
-      if (currentSvg) {
-        gsap.to(currentSvg, {
+      const svgItem = item.querySelector(".solution--svg-item");
+      const paragraph = item.querySelector(".paragraph-small-130");
+
+      if (svgItem) {
+        gsap.to(svgItem, {
           opacity: 0,
           duration: 0.3,
           ease: "power4.out",
         });
       }
 
-      if (currentParagraph) {
-        gsap.to(currentParagraph, {
+      if (paragraph) {
+        gsap.to(paragraph, {
           opacity: 1,
           duration: 0.3,
           ease: "power4.out",
         });
       }
     });
+
+    currentlyHovered = null;
   });
 
   // Handle window resize
@@ -516,6 +555,7 @@ $(window).on("load", function () {
         if (svgItem) gsap.set(svgItem, { opacity: 0 });
         if (paragraph) gsap.set(paragraph, { opacity: 1 });
       });
+      currentlyHovered = null;
     }
   });
 })();
@@ -529,6 +569,11 @@ $(window).on("load", function () {
 
   if (resourceLinks.length === 0) return;
 
+  // Find the parent container of all resource links
+  const parentContainer = resourceLinks[0].parentElement;
+
+  if (!parentContainer) return;
+
   // Initialize all items
   resourceLinks.forEach((link) => {
     const svg = link.querySelector(".resource--link-svg");
@@ -537,11 +582,27 @@ $(window).on("load", function () {
     }
   });
 
-  // Add hover listeners
+  // Track the currently hovered link
+  let currentlyHovered = null;
+
+  // Add mouseenter listeners to each link
   resourceLinks.forEach((currentLink) => {
     const currentSvg = currentLink.querySelector(".resource--link-svg");
 
     currentLink.addEventListener("mouseenter", function () {
+      // If there was a previously hovered link, reset it
+      if (currentlyHovered && currentlyHovered !== currentLink) {
+        const prevSvg = currentlyHovered.querySelector(".resource--link-svg");
+
+        if (prevSvg) {
+          gsap.to(prevSvg, {
+            opacity: 0,
+            duration: 0.3,
+            ease: "power4.out",
+          });
+        }
+      }
+
       // Fade out other links
       resourceLinks.forEach((link) => {
         if (link !== currentLink) {
@@ -561,27 +622,33 @@ $(window).on("load", function () {
           ease: "power4.out",
         });
       }
-    });
 
-    currentLink.addEventListener("mouseleave", function () {
-      // Reset all links opacity
-      resourceLinks.forEach((link) => {
-        gsap.to(link, {
-          opacity: 1,
-          duration: 0.3,
-          ease: "power4.out",
-        });
+      currentlyHovered = currentLink;
+    });
+  });
+
+  // Add mouseleave to the parent container, not individual links
+  parentContainer.addEventListener("mouseleave", function () {
+    // Reset all links opacity
+    resourceLinks.forEach((link) => {
+      gsap.to(link, {
+        opacity: 1,
+        duration: 0.3,
+        ease: "power4.out",
       });
 
-      // Hide SVG for current link
-      if (currentSvg) {
-        gsap.to(currentSvg, {
+      const svg = link.querySelector(".resource--link-svg");
+
+      if (svg) {
+        gsap.to(svg, {
           opacity: 0,
           duration: 0.3,
           ease: "power4.out",
         });
       }
     });
+
+    currentlyHovered = null;
   });
 
   // Handle window resize
@@ -593,6 +660,7 @@ $(window).on("load", function () {
         const svg = link.querySelector(".resource--link-svg");
         if (svg) gsap.set(svg, { opacity: 0 });
       });
+      currentlyHovered = null;
     }
   });
 })();
