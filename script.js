@@ -222,6 +222,9 @@ $(window).on("load", function () {
 
   if (dropdowns.length === 0) return;
 
+  let activeDropdown = null;
+  let activeCloseFunction = null;
+
   dropdowns.forEach((dropdown) => {
     const trigger = dropdown.querySelector(".navbar--dropdown-trigger");
     const list = dropdown.querySelector(".navbar--dropdown-list");
@@ -256,6 +259,10 @@ $(window).on("load", function () {
           ease: "power4.out",
         });
       }
+
+      // Track active dropdown
+      activeDropdown = dropdown;
+      activeCloseFunction = closeDropdown;
     }
 
     // Close dropdown
@@ -276,6 +283,12 @@ $(window).on("load", function () {
           duration: 0.5,
           ease: "power4.out",
         });
+      }
+
+      // Clear active dropdown
+      if (activeDropdown === dropdown) {
+        activeDropdown = null;
+        activeCloseFunction = null;
       }
     }
 
@@ -320,6 +333,13 @@ $(window).on("load", function () {
       }
     });
   });
+
+  // Expose function to close active dropdown
+  window.closeMobileDropdown = function () {
+    if (activeCloseFunction) {
+      activeCloseFunction();
+    }
+  };
 })();
 
 // --------------------- Mobile Hamburger Menu Animation --------------------- //
@@ -434,6 +454,11 @@ $(window).on("load", function () {
     if (window.innerWidth >= 992) {
       console.log("Screen too wide for mobile menu");
       return;
+    }
+
+    // Close any open dropdown first
+    if (typeof window.closeMobileDropdown === "function") {
+      window.closeMobileDropdown();
     }
 
     if (isMenuOpen) {
