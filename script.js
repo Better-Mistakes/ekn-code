@@ -20,6 +20,9 @@ $(window).on("load", function () {
 
     dropdowns.forEach((dropdown) => {
       const list = dropdown.querySelector(".navbar--dropdown-list");
+      const trigger = dropdown.querySelector(".navbar--dropdown-trigger");
+      const line = trigger ? trigger.querySelector(".dropdown--line") : null;
+
       if (list) {
         gsap.set(list, {
           display: "none",
@@ -34,12 +37,20 @@ $(window).on("load", function () {
           y: "1rem",
         });
       }
+
+      // Initialize line
+      if (line) {
+        gsap.set(line, { width: "0%" });
+      }
     });
   }
 
   // Function to close a dropdown
   function closeDropdown(dropdown) {
     const list = dropdown.querySelector(".navbar--dropdown-list");
+    const trigger = dropdown.querySelector(".navbar--dropdown-trigger");
+    const line = trigger ? trigger.querySelector(".dropdown--line") : null;
+
     if (!list) return;
 
     gsap.to(list, {
@@ -50,11 +61,32 @@ $(window).on("load", function () {
         gsap.set(list, { display: "none" });
       },
     });
+
+    // Revert trigger color
+    if (trigger) {
+      gsap.to(trigger, {
+        color: "",
+        duration: 0.3,
+        ease: "power4.out",
+      });
+    }
+
+    // Animate line out
+    if (line) {
+      gsap.to(line, {
+        width: "0%",
+        duration: 0.3,
+        ease: "power4.out",
+      });
+    }
   }
 
   // Function to open a dropdown
   function openDropdown(dropdown, animate = false) {
     const list = dropdown.querySelector(".navbar--dropdown-list");
+    const trigger = dropdown.querySelector(".navbar--dropdown-trigger");
+    const line = trigger ? trigger.querySelector(".dropdown--line") : null;
+
     if (!list) return;
 
     // First set display to flex with height 0
@@ -76,6 +108,24 @@ $(window).on("load", function () {
         duration: 0.4,
         ease: "power4.out",
         stagger: 0.05,
+      });
+    }
+
+    // Animate trigger color
+    if (trigger) {
+      gsap.to(trigger, {
+        color: "#0133F6",
+        duration: 0.3,
+        ease: "power4.out",
+      });
+    }
+
+    // Animate line in
+    if (line) {
+      gsap.to(line, {
+        width: "100%",
+        duration: 0.3,
+        ease: "power4.out",
       });
     }
   }
@@ -220,10 +270,21 @@ $(window).on("load", function () {
         // Reset on mobile
         dropdowns.forEach((dropdown) => {
           const list = dropdown.querySelector(".navbar--dropdown-list");
+          const trigger = dropdown.querySelector(".navbar--dropdown-trigger");
+          const line = trigger
+            ? trigger.querySelector(".dropdown--line")
+            : null;
+
           if (list) {
             gsap.set(list, { display: "", height: "", overflow: "" });
             const items = list.querySelectorAll('[animate="dropdownnav"]');
             gsap.set(items, { opacity: "", y: "" });
+          }
+          if (trigger) {
+            gsap.set(trigger, { color: "" });
+          }
+          if (line) {
+            gsap.set(line, { width: "" });
           }
         });
         activeDropdown = null;

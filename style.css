@@ -22,6 +22,16 @@ body {
   cursor: pointer;
 }
 
+@media (min-width: 992px) {
+  .navbar--dropdown-trigger {
+    will-change: color;
+  }
+
+  .dropdown--line {
+    will-change: width;
+  }
+}
+
 .navbar--dropdown-list {
   overflow: auto;
   will-change: height;
