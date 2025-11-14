@@ -31,6 +31,22 @@ body {
   will-change: background-color, color;
 }
 
+/* --------------------- Navbar Solution Items Hover (Desktop) --------------------- */
+@media (min-width: 992px) {
+  .navbar--solution-item {
+    cursor: pointer;
+    will-change: opacity;
+  }
+
+  .solution--svg-item {
+    will-change: opacity;
+  }
+
+  .navbar--solution-item .paragraph-small-130 {
+    will-change: opacity;
+  }
+}
+
 /* --------------------- Mobile Navbar Dropdown Styles --------------------- */
 @media (max-width: 991px) {
   .navbar--dropdown-trigger {

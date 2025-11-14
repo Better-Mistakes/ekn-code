@@ -342,6 +342,107 @@ $(window).on("load", function () {
   };
 })();
 
+// --------------------- Navbar Solution Items Hover (Desktop) --------------------- //
+(function () {
+  // Only run on screens above 992px
+  if (window.innerWidth <= 992) return;
+
+  const solutionItems = document.querySelectorAll(".navbar--solution-item");
+
+  if (solutionItems.length === 0) return;
+
+  // Initialize all items
+  solutionItems.forEach((item) => {
+    const svgItem = item.querySelector(".solution--svg-item");
+    const paragraph = item.querySelector(".paragraph-small-130");
+
+    if (svgItem) {
+      gsap.set(svgItem, { opacity: 0 });
+    }
+    if (paragraph) {
+      gsap.set(paragraph, { opacity: 1 });
+    }
+  });
+
+  // Add hover listeners
+  solutionItems.forEach((currentItem) => {
+    const currentSvg = currentItem.querySelector(".solution--svg-item");
+    const currentParagraph = currentItem.querySelector(".paragraph-small-130");
+
+    currentItem.addEventListener("mouseenter", function () {
+      // Fade out other items
+      solutionItems.forEach((item) => {
+        if (item !== currentItem) {
+          gsap.to(item, {
+            opacity: 0.3,
+            duration: 0.3,
+            ease: "power4.out",
+          });
+        }
+      });
+
+      // Show SVG and hide paragraph for current item
+      if (currentSvg) {
+        gsap.to(currentSvg, {
+          opacity: 1,
+          duration: 0.3,
+          ease: "power4.out",
+        });
+      }
+
+      if (currentParagraph) {
+        gsap.to(currentParagraph, {
+          opacity: 0,
+          duration: 0.3,
+          ease: "power4.out",
+        });
+      }
+    });
+
+    currentItem.addEventListener("mouseleave", function () {
+      // Reset all items opacity
+      solutionItems.forEach((item) => {
+        gsap.to(item, {
+          opacity: 1,
+          duration: 0.3,
+          ease: "power4.out",
+        });
+      });
+
+      // Hide SVG and show paragraph for current item
+      if (currentSvg) {
+        gsap.to(currentSvg, {
+          opacity: 0,
+          duration: 0.3,
+          ease: "power4.out",
+        });
+      }
+
+      if (currentParagraph) {
+        gsap.to(currentParagraph, {
+          opacity: 1,
+          duration: 0.3,
+          ease: "power4.out",
+        });
+      }
+    });
+  });
+
+  // Handle window resize
+  window.addEventListener("resize", function () {
+    if (window.innerWidth <= 992) {
+      // Reset everything on mobile
+      solutionItems.forEach((item) => {
+        gsap.set(item, { opacity: 1 });
+        const svgItem = item.querySelector(".solution--svg-item");
+        const paragraph = item.querySelector(".paragraph-small-130");
+        if (svgItem) gsap.set(svgItem, { opacity: 0 });
+        if (paragraph) gsap.set(paragraph, { opacity: 1 });
+      });
+    }
+  });
+})();
+
 // --------------------- Mobile Hamburger Menu Animation --------------------- //
 (function () {
   const menuTrigger = document.querySelector(".menu--trigger");
