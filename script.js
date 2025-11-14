@@ -489,38 +489,6 @@ $(window).on("load", function () {
     currentlyHovered = null;
   }
 
-  // Add mouseenter to parent container to detect when hovering in gaps
-  parentContainer.addEventListener("mouseenter", function (e) {
-    // Check if we're not hovering over a solution item
-    let isOverItem = false;
-    solutionItems.forEach((item) => {
-      if (item.contains(e.target) || item === e.target) {
-        isOverItem = true;
-      }
-    });
-
-    // If not over any item, reset all
-    if (!isOverItem && currentlyHovered) {
-      resetAllItems();
-    }
-  });
-
-  // Add mousemove to parent to detect when moving to gaps between items
-  parentContainer.addEventListener("mousemove", function (e) {
-    // Check if we're not hovering over a solution item
-    let isOverItem = false;
-    solutionItems.forEach((item) => {
-      if (item.contains(e.target) || item === e.target) {
-        isOverItem = true;
-      }
-    });
-
-    // If not over any item and we had one hovered, reset all
-    if (!isOverItem && currentlyHovered) {
-      resetAllItems();
-    }
-  });
-
   // Add mouseenter listeners to each item
   solutionItems.forEach((currentItem) => {
     const currentSvg = currentItem.querySelector(".solution--svg-item");
@@ -586,6 +554,34 @@ $(window).on("load", function () {
       }
 
       currentlyHovered = currentItem;
+    });
+
+    // Add mouseleave listener to each item
+    currentItem.addEventListener("mouseleave", function (e) {
+      // Check if we're leaving to another solution item
+      let movingToAnotherItem = false;
+      solutionItems.forEach((item) => {
+        if (
+          item !== currentItem &&
+          (item.contains(e.relatedTarget) || item === e.relatedTarget)
+        ) {
+          movingToAnotherItem = true;
+        }
+      });
+
+      // Check if we're still in the parent container
+      const stillInContainer =
+        parentContainer.contains(e.relatedTarget) ||
+        parentContainer === e.relatedTarget;
+
+      // If we're still in container but not moving to another item, reset
+      if (
+        stillInContainer &&
+        !movingToAnotherItem &&
+        currentlyHovered === currentItem
+      ) {
+        resetAllItems();
+      }
     });
   });
 
@@ -658,38 +654,6 @@ $(window).on("load", function () {
     currentlyHovered = null;
   }
 
-  // Add mouseenter to parent container to detect when hovering in gaps
-  parentContainer.addEventListener("mouseenter", function (e) {
-    // Check if we're not hovering over a resource link
-    let isOverLink = false;
-    resourceLinks.forEach((link) => {
-      if (link.contains(e.target) || link === e.target) {
-        isOverLink = true;
-      }
-    });
-
-    // If not over any link, reset all
-    if (!isOverLink && currentlyHovered) {
-      resetAllLinks();
-    }
-  });
-
-  // Add mousemove to parent to detect when moving to gaps between links
-  parentContainer.addEventListener("mousemove", function (e) {
-    // Check if we're not hovering over a resource link
-    let isOverLink = false;
-    resourceLinks.forEach((link) => {
-      if (link.contains(e.target) || link === e.target) {
-        isOverLink = true;
-      }
-    });
-
-    // If not over any link and we had one hovered, reset all
-    if (!isOverLink && currentlyHovered) {
-      resetAllLinks();
-    }
-  });
-
   // Add mouseenter listeners to each link
   resourceLinks.forEach((currentLink) => {
     const currentSvg = currentLink.querySelector(".resource--link-svg");
@@ -735,6 +699,34 @@ $(window).on("load", function () {
       }
 
       currentlyHovered = currentLink;
+    });
+
+    // Add mouseleave listener to each link
+    currentLink.addEventListener("mouseleave", function (e) {
+      // Check if we're leaving to another resource link
+      let movingToAnotherLink = false;
+      resourceLinks.forEach((link) => {
+        if (
+          link !== currentLink &&
+          (link.contains(e.relatedTarget) || link === e.relatedTarget)
+        ) {
+          movingToAnotherLink = true;
+        }
+      });
+
+      // Check if we're still in the parent container
+      const stillInContainer =
+        parentContainer.contains(e.relatedTarget) ||
+        parentContainer === e.relatedTarget;
+
+      // If we're still in container but not moving to another link, reset
+      if (
+        stillInContainer &&
+        !movingToAnotherLink &&
+        currentlyHovered === currentLink
+      ) {
+        resetAllLinks();
+      }
     });
   });
 
