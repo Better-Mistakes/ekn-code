@@ -27,6 +27,10 @@ body {
   will-change: height;
 }
 
+.btn.is--nav {
+  will-change: background-color, color;
+}
+
 /* --------------------- Eyebrow Animation Styles --------------------- */
 [animation="eyebrow"] {
   position: relative;

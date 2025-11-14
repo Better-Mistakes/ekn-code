@@ -34,7 +34,7 @@ $(window).on("load", function () {
     gsap.to(list, {
       height: 0,
       duration: 0.3,
-      ease: "power2.out",
+      ease: "power4.out",
       onComplete: () => {
         gsap.set(list, { display: "none" });
       },
@@ -53,41 +53,63 @@ $(window).on("load", function () {
     gsap.to(list, {
       height: "auto",
       duration: 0.3,
-      ease: "power2.out",
+      ease: "power4.out",
     });
   }
 
   // Function to activate navbar style
   function activateNavbarStyle() {
+    const navButtons = navbar.querySelectorAll(".btn.is--nav");
+
     if (navbarBg) {
       gsap.to(navbarBg, {
         backgroundColor: "#F2F3F6",
         duration: 0.3,
-        ease: "power2.out",
+        ease: "power4.out",
       });
     }
 
     gsap.to(navbar, {
       color: "#040A44",
       duration: 0.3,
-      ease: "power2.out",
+      ease: "power4.out",
+    });
+
+    navButtons.forEach((btn) => {
+      gsap.to(btn, {
+        backgroundColor: "#040A44",
+        color: "#F2F3F6",
+        duration: 0.3,
+        ease: "power4.out",
+      });
     });
   }
 
   // Function to deactivate navbar style
   function deactivateNavbarStyle() {
+    const navButtons = navbar.querySelectorAll(".btn.is--nav");
+
     if (navbarBg) {
       gsap.to(navbarBg, {
         backgroundColor: "", // Reset to original
         duration: 0.3,
-        ease: "power2.out",
+        ease: "power4.out",
       });
     }
 
     gsap.to(navbar, {
       color: "", // Reset to original
       duration: 0.3,
-      ease: "power2.out",
+      ease: "power4.out",
+    });
+
+    navButtons.forEach((btn) => {
+      gsap.to(btn, {
+        backgroundColor: "",
+        color: "",
+        duration: 0.3,
+        ease: "power4.out",
+      });
     });
   }
 
