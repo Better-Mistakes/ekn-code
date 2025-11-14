@@ -479,11 +479,17 @@ $(window).on("load", function () {
         }
       }
 
-      // Fade out other items
+      // Fade out other items and reset current item to full opacity
       solutionItems.forEach((item) => {
         if (item !== currentItem) {
           gsap.to(item, {
             opacity: 0.3,
+            duration: 0.3,
+            ease: "power4.out",
+          });
+        } else {
+          gsap.to(item, {
+            opacity: 1,
             duration: 0.3,
             ease: "power4.out",
           });
@@ -603,11 +609,17 @@ $(window).on("load", function () {
         }
       }
 
-      // Fade out other links
+      // Fade out other links and reset current link to full opacity
       resourceLinks.forEach((link) => {
         if (link !== currentLink) {
           gsap.to(link, {
             opacity: 0.3,
+            duration: 0.3,
+            ease: "power4.out",
+          });
+        } else {
+          gsap.to(link, {
+            opacity: 1,
             duration: 0.3,
             ease: "power4.out",
           });
