@@ -568,11 +568,8 @@ $(window).on("load", function () {
           }
         });
 
-        // Check if we're still in the parent container
-        const stillInContainer = parentContainer.matches(":hover");
-
-        // If we're still in container but not hovering any item, reset
-        if (stillInContainer && !hoveringItem) {
+        // If not hovering any item, reset
+        if (!hoveringItem) {
           resetAllItems();
         }
       }, 10);
@@ -707,11 +704,8 @@ $(window).on("load", function () {
           }
         });
 
-        // Check if we're still in the parent container
-        const stillInContainer = parentContainer.matches(":hover");
-
-        // If we're still in container but not hovering any link, reset
-        if (stillInContainer && !hoveringLink) {
+        // If not hovering any link, reset
+        if (!hoveringLink) {
           resetAllLinks();
         }
       }, 10);
