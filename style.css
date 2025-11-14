@@ -27,6 +27,10 @@ body {
     will-change: color;
   }
 
+  .navlink .dropdown--line {
+    will-change: width;
+  }
+
   .dropdown--line {
     will-change: width;
   }

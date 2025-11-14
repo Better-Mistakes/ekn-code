@@ -232,6 +232,13 @@ $(window).on("load", function () {
   // Add hover listeners to .navlink elements (desktop only)
   const navlinks = navbar.querySelectorAll(".navlink");
   navlinks.forEach((navlink) => {
+    const line = navlink.querySelector(".dropdown--line");
+
+    // Initialize line
+    if (line) {
+      gsap.set(line, { width: "0%" });
+    }
+
     navlink.addEventListener("mouseenter", function () {
       // Only work on desktop screens
       if (window.innerWidth < 992) return;
@@ -242,6 +249,29 @@ $(window).on("load", function () {
         resetDropdownItems(activeDropdown);
         activeDropdown = null;
         deactivateNavbarStyle();
+      }
+
+      // Animate line in
+      if (line) {
+        gsap.to(line, {
+          width: "100%",
+          duration: 0.3,
+          ease: "power4.out",
+        });
+      }
+    });
+
+    navlink.addEventListener("mouseleave", function () {
+      // Only work on desktop screens
+      if (window.innerWidth < 992) return;
+
+      // Animate line out
+      if (line) {
+        gsap.to(line, {
+          width: "0%",
+          duration: 0.3,
+          ease: "power4.out",
+        });
       }
     });
   });
