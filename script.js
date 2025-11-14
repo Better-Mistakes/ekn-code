@@ -4,6 +4,121 @@ $(window).on("load", function () {
   $("body").animate({ opacity: 1 }, 200);
 });
 
+// --------------------- Navbar Dropdown Animation --------------------- //
+(function () {
+  const navbar = document.querySelector(".navbar");
+  const navbarBg = document.querySelector(".navbar--bg");
+  const dropdowns = document.querySelectorAll(".navbar--dropdown");
+
+  if (!navbar || dropdowns.length === 0) return;
+
+  let activeDropdown = null;
+
+  // Initialize all dropdown lists
+  dropdowns.forEach((dropdown) => {
+    const list = dropdown.querySelector(".navbar--dropdown-list");
+    if (list) {
+      gsap.set(list, {
+        display: "none",
+        height: 0,
+        overflow: "hidden",
+      });
+    }
+  });
+
+  // Function to close a dropdown
+  function closeDropdown(dropdown) {
+    const list = dropdown.querySelector(".navbar--dropdown-list");
+    if (!list) return;
+
+    gsap.to(list, {
+      height: 0,
+      duration: 0.3,
+      ease: "power2.out",
+      onComplete: () => {
+        gsap.set(list, { display: "none" });
+      },
+    });
+  }
+
+  // Function to open a dropdown
+  function openDropdown(dropdown) {
+    const list = dropdown.querySelector(".navbar--dropdown-list");
+    if (!list) return;
+
+    // First set display to flex with height 0
+    gsap.set(list, { display: "flex", height: 0 });
+
+    // Then animate height to auto
+    gsap.to(list, {
+      height: "auto",
+      duration: 0.3,
+      ease: "power2.out",
+    });
+  }
+
+  // Function to activate navbar style
+  function activateNavbarStyle() {
+    if (navbarBg) {
+      gsap.to(navbarBg, {
+        backgroundColor: "#F2F3F6",
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    }
+
+    gsap.to(navbar, {
+      color: "#040A44",
+      duration: 0.3,
+      ease: "power2.out",
+    });
+  }
+
+  // Function to deactivate navbar style
+  function deactivateNavbarStyle() {
+    if (navbarBg) {
+      gsap.to(navbarBg, {
+        backgroundColor: "", // Reset to original
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    }
+
+    gsap.to(navbar, {
+      color: "", // Reset to original
+      duration: 0.3,
+      ease: "power2.out",
+    });
+  }
+
+  // Add hover listeners to each trigger
+  dropdowns.forEach((dropdown) => {
+    const trigger = dropdown.querySelector(".navbar--dropdown-trigger");
+    if (!trigger) return;
+
+    trigger.addEventListener("mouseenter", function () {
+      // Close previously active dropdown if it exists
+      if (activeDropdown && activeDropdown !== dropdown) {
+        closeDropdown(activeDropdown);
+      }
+
+      // Open current dropdown
+      openDropdown(dropdown);
+      activateNavbarStyle();
+      activeDropdown = dropdown;
+    });
+  });
+
+  // Close dropdown when hovering out of navbar
+  navbar.addEventListener("mouseleave", function () {
+    if (activeDropdown) {
+      closeDropdown(activeDropdown);
+      activeDropdown = null;
+    }
+    deactivateNavbarStyle();
+  });
+})();
+
 // --------------------- Navbar Scroll Behavior --------------------- //
 (function () {
   const navbar = document.querySelector(".navbar");

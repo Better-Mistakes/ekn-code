@@ -10,6 +10,21 @@ body {
 
 .navbar--bg {
   transition: opacity 0.3s ease-in-out;
+  will-change: background-color;
+}
+
+/* --------------------- Navbar Dropdown Styles --------------------- */
+.navbar--dropdown {
+  position: relative;
+}
+
+.navbar--dropdown-trigger {
+  cursor: pointer;
+}
+
+.navbar--dropdown-list {
+  overflow: hidden;
+  will-change: height;
 }
 
 /* --------------------- Eyebrow Animation Styles --------------------- */
