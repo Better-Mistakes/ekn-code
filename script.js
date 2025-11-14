@@ -621,7 +621,7 @@ $(window).on("load", function () {
   resourceLinks.forEach((link) => {
     const svg = link.querySelector(".resource--link-svg");
     if (svg) {
-      gsap.set(svg, { opacity: 0 });
+      gsap.set(svg, { opacity: 0, x: "-1.5rem" });
     }
   });
 
@@ -642,6 +642,7 @@ $(window).on("load", function () {
       if (svg) {
         gsap.to(svg, {
           opacity: 0,
+          x: "-1.5rem",
           duration: 0.3,
           ease: "power4.out",
         });
@@ -663,6 +664,7 @@ $(window).on("load", function () {
         if (prevSvg) {
           gsap.to(prevSvg, {
             opacity: 0,
+            x: "-1.5rem",
             duration: 0.3,
             ease: "power4.out",
           });
@@ -690,6 +692,7 @@ $(window).on("load", function () {
       if (currentSvg) {
         gsap.to(currentSvg, {
           opacity: 1,
+          x: "0rem",
           duration: 0.3,
           ease: "power4.out",
         });
@@ -730,7 +733,7 @@ $(window).on("load", function () {
       resourceLinks.forEach((link) => {
         gsap.set(link, { opacity: 1 });
         const svg = link.querySelector(".resource--link-svg");
-        if (svg) gsap.set(svg, { opacity: 0 });
+        if (svg) gsap.set(svg, { opacity: 0, x: "-1.5rem" });
       });
       currentlyHovered = null;
     }

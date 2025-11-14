@@ -65,7 +65,7 @@ body {
   }
 
   .resource--link-svg {
-    will-change: opacity;
+    will-change: opacity, transform;
   }
 }
 
