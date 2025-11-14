@@ -149,7 +149,7 @@ $(window).on("load", function () {
     if (navbarBg) {
       gsap.to(navbarBg, {
         backgroundColor: "#F2F3F6",
-        borderBottomColor: "#F2F3F6",
+        borderBottomColor: "#C0C2D0",
         duration: 0.3,
         ease: "power4.out",
       });
