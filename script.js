@@ -4,7 +4,7 @@ $(window).on("load", function () {
   $("body").animate({ opacity: 1 }, 200);
 });
 
-// --------------------- Navbar Dropdown Animation --------------------- //
+// --------------------- Navbar Dropdown Animation (Desktop) --------------------- //
 (function () {
   const navbar = document.querySelector(".navbar");
   const navbarBg = document.querySelector(".navbar--bg");
@@ -14,24 +14,28 @@ $(window).on("load", function () {
 
   let activeDropdown = null;
 
-  // Initialize all dropdown lists and items
-  dropdowns.forEach((dropdown) => {
-    const list = dropdown.querySelector(".navbar--dropdown-list");
-    if (list) {
-      gsap.set(list, {
-        display: "none",
-        height: 0,
-        overflow: "hidden",
-      });
+  // Initialize all dropdown lists and items (desktop only)
+  function initDesktopDropdowns() {
+    if (window.innerWidth < 992) return;
 
-      // Initialize dropdown items
-      const items = list.querySelectorAll('[animate="dropdownnav"]');
-      gsap.set(items, {
-        opacity: 0,
-        y: "1rem",
-      });
-    }
-  });
+    dropdowns.forEach((dropdown) => {
+      const list = dropdown.querySelector(".navbar--dropdown-list");
+      if (list) {
+        gsap.set(list, {
+          display: "none",
+          height: 0,
+          overflow: "hidden",
+        });
+
+        // Initialize dropdown items
+        const items = list.querySelectorAll('[animate="dropdownnav"]');
+        gsap.set(items, {
+          opacity: 0,
+          y: "1rem",
+        });
+      }
+    });
+  }
 
   // Function to close a dropdown
   function closeDropdown(dropdown) {
@@ -144,12 +148,15 @@ $(window).on("load", function () {
     });
   }
 
-  // Add hover listeners to each trigger
+  // Add hover listeners to each trigger (desktop only)
   dropdowns.forEach((dropdown) => {
     const trigger = dropdown.querySelector(".navbar--dropdown-trigger");
     if (!trigger) return;
 
     trigger.addEventListener("mouseenter", function () {
+      // Only work on desktop screens
+      if (window.innerWidth < 992) return;
+
       const isNewDropdown = activeDropdown !== dropdown;
       const isFirstOpen = activeDropdown === null;
 
@@ -165,8 +172,11 @@ $(window).on("load", function () {
     });
   });
 
-  // Close dropdown when hovering out of navbar
+  // Close dropdown when hovering out of navbar (desktop only)
   navbar.addEventListener("mouseleave", function () {
+    // Only work on desktop screens
+    if (window.innerWidth < 992) return;
+
     if (activeDropdown) {
       closeDropdown(activeDropdown);
       // Reset items when fully leaving navbar
@@ -174,6 +184,35 @@ $(window).on("load", function () {
       activeDropdown = null;
     }
     deactivateNavbarStyle();
+  });
+
+  // Initialize on load
+  initDesktopDropdowns();
+
+  // Reinitialize on resize
+  let wasDesktop = window.innerWidth >= 992;
+  window.addEventListener("resize", function () {
+    const isDesktop = window.innerWidth >= 992;
+
+    if (isDesktop !== wasDesktop) {
+      wasDesktop = isDesktop;
+
+      if (isDesktop) {
+        initDesktopDropdowns();
+        activeDropdown = null;
+      } else {
+        // Reset on mobile
+        dropdowns.forEach((dropdown) => {
+          const list = dropdown.querySelector(".navbar--dropdown-list");
+          if (list) {
+            gsap.set(list, { display: "", height: "", overflow: "" });
+            const items = list.querySelectorAll('[animate="dropdownnav"]');
+            gsap.set(items, { opacity: "", y: "" });
+          }
+        });
+        activeDropdown = null;
+      }
+    }
   });
 })();
 
