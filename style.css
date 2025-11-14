@@ -10,7 +10,7 @@ body {
 
 .navbar--bg {
   transition: opacity 0.3s ease-in-out;
-  will-change: background-color;
+  will-change: background-color, border-bottom-color;
 }
 
 /* --------------------- Navbar Dropdown Styles --------------------- */

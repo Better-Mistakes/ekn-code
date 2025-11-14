@@ -149,6 +149,7 @@ $(window).on("load", function () {
     if (navbarBg) {
       gsap.to(navbarBg, {
         backgroundColor: "#F2F3F6",
+        borderBottomColor: "#F2F3F6",
         duration: 0.3,
         ease: "power4.out",
       });
@@ -177,6 +178,7 @@ $(window).on("load", function () {
     if (navbarBg) {
       gsap.to(navbarBg, {
         backgroundColor: "", // Reset to original
+        borderBottomColor: "",
         duration: 0.3,
         ease: "power4.out",
       });
@@ -230,6 +232,23 @@ $(window).on("load", function () {
 
       // Only close if this is the active dropdown
       if (activeDropdown === dropdown) {
+        closeDropdown(activeDropdown);
+        resetDropdownItems(activeDropdown);
+        activeDropdown = null;
+        deactivateNavbarStyle();
+      }
+    });
+  });
+
+  // Add hover listeners to .navlink elements (desktop only)
+  const navlinks = navbar.querySelectorAll(".navlink");
+  navlinks.forEach((navlink) => {
+    navlink.addEventListener("mouseenter", function () {
+      // Only work on desktop screens
+      if (window.innerWidth < 992) return;
+
+      // Close active dropdown if hovering over a navlink
+      if (activeDropdown) {
         closeDropdown(activeDropdown);
         resetDropdownItems(activeDropdown);
         activeDropdown = null;
