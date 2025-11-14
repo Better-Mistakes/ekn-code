@@ -23,7 +23,7 @@ body {
 }
 
 .navbar--dropdown-list {
-  overflow: hidden;
+  overflow: auto;
   will-change: height;
 }
 
