@@ -558,30 +558,24 @@ $(window).on("load", function () {
 
     // Add mouseleave listener to each item
     currentItem.addEventListener("mouseleave", function (e) {
-      // Check if we're leaving to another solution item
-      let movingToAnotherItem = false;
-      solutionItems.forEach((item) => {
-        if (
-          item !== currentItem &&
-          (item.contains(e.relatedTarget) || item === e.relatedTarget)
-        ) {
-          movingToAnotherItem = true;
+      // Small delay to check where the mouse went
+      setTimeout(() => {
+        // Check if we're hovering over any solution item
+        let hoveringItem = false;
+        solutionItems.forEach((item) => {
+          if (item.matches(":hover")) {
+            hoveringItem = true;
+          }
+        });
+
+        // Check if we're still in the parent container
+        const stillInContainer = parentContainer.matches(":hover");
+
+        // If we're still in container but not hovering any item, reset
+        if (stillInContainer && !hoveringItem) {
+          resetAllItems();
         }
-      });
-
-      // Check if we're still in the parent container
-      const stillInContainer =
-        parentContainer.contains(e.relatedTarget) ||
-        parentContainer === e.relatedTarget;
-
-      // If we're still in container but not moving to another item, reset
-      if (
-        stillInContainer &&
-        !movingToAnotherItem &&
-        currentlyHovered === currentItem
-      ) {
-        resetAllItems();
-      }
+      }, 10);
     });
   });
 
@@ -703,30 +697,24 @@ $(window).on("load", function () {
 
     // Add mouseleave listener to each link
     currentLink.addEventListener("mouseleave", function (e) {
-      // Check if we're leaving to another resource link
-      let movingToAnotherLink = false;
-      resourceLinks.forEach((link) => {
-        if (
-          link !== currentLink &&
-          (link.contains(e.relatedTarget) || link === e.relatedTarget)
-        ) {
-          movingToAnotherLink = true;
+      // Small delay to check where the mouse went
+      setTimeout(() => {
+        // Check if we're hovering over any resource link
+        let hoveringLink = false;
+        resourceLinks.forEach((link) => {
+          if (link.matches(":hover")) {
+            hoveringLink = true;
+          }
+        });
+
+        // Check if we're still in the parent container
+        const stillInContainer = parentContainer.matches(":hover");
+
+        // If we're still in container but not hovering any link, reset
+        if (stillInContainer && !hoveringLink) {
+          resetAllLinks();
         }
-      });
-
-      // Check if we're still in the parent container
-      const stillInContainer =
-        parentContainer.contains(e.relatedTarget) ||
-        parentContainer === e.relatedTarget;
-
-      // If we're still in container but not moving to another link, reset
-      if (
-        stillInContainer &&
-        !movingToAnotherLink &&
-        currentlyHovered === currentLink
-      ) {
-        resetAllLinks();
-      }
+      }, 10);
     });
   });
 
