@@ -447,10 +447,10 @@ $(window).on("load", function () {
     const paragraph = item.querySelector(".paragraph-small-130");
 
     if (svgItem) {
-      gsap.set(svgItem, { opacity: 0 });
+      gsap.set(svgItem, { opacity: 0, x: "-1.5rem" });
     }
     if (paragraph) {
-      gsap.set(paragraph, { opacity: 1 });
+      gsap.set(paragraph, { opacity: 1, x: "0rem" });
     }
   });
 
@@ -472,6 +472,7 @@ $(window).on("load", function () {
       if (svgItem) {
         gsap.to(svgItem, {
           opacity: 0,
+          x: "-1.5rem",
           duration: 0.3,
           ease: "power4.out",
         });
@@ -480,6 +481,7 @@ $(window).on("load", function () {
       if (paragraph) {
         gsap.to(paragraph, {
           opacity: 1,
+          x: "0rem",
           duration: 0.3,
           ease: "power4.out",
         });
@@ -505,6 +507,7 @@ $(window).on("load", function () {
         if (prevSvg) {
           gsap.to(prevSvg, {
             opacity: 0,
+            x: "-1.5rem",
             duration: 0.3,
             ease: "power4.out",
           });
@@ -513,6 +516,7 @@ $(window).on("load", function () {
         if (prevParagraph) {
           gsap.to(prevParagraph, {
             opacity: 1,
+            x: "0rem",
             duration: 0.3,
             ease: "power4.out",
           });
@@ -540,6 +544,7 @@ $(window).on("load", function () {
       if (currentSvg) {
         gsap.to(currentSvg, {
           opacity: 1,
+          x: "0rem",
           duration: 0.3,
           ease: "power4.out",
         });
@@ -548,6 +553,7 @@ $(window).on("load", function () {
       if (currentParagraph) {
         gsap.to(currentParagraph, {
           opacity: 0,
+          x: "1.5rem",
           duration: 0.3,
           ease: "power4.out",
         });
@@ -589,8 +595,8 @@ $(window).on("load", function () {
         gsap.set(item, { opacity: 1 });
         const svgItem = item.querySelector(".solution--svg-item");
         const paragraph = item.querySelector(".paragraph-small-130");
-        if (svgItem) gsap.set(svgItem, { opacity: 0 });
-        if (paragraph) gsap.set(paragraph, { opacity: 1 });
+        if (svgItem) gsap.set(svgItem, { opacity: 0, x: "-1.5rem" });
+        if (paragraph) gsap.set(paragraph, { opacity: 1, x: "0rem" });
       });
       currentlyHovered = null;
     }

@@ -49,11 +49,11 @@ body {
   }
 
   .solution--svg-item {
-    will-change: opacity;
+    will-change: opacity, transform;
   }
 
   .navbar--solution-item .paragraph-small-130 {
-    will-change: opacity;
+    will-change: opacity, transform;
   }
 }
 
