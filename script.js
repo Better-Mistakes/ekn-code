@@ -177,6 +177,140 @@ $(window).on("load", function () {
   });
 })();
 
+// --------------------- Mobile Hamburger Menu Animation --------------------- //
+(function () {
+  const menuTrigger = document.querySelector(".menu--trigger");
+  const menuOpen = document.querySelector(".menu--open");
+  const menuClose = document.querySelector(".menu--close");
+  const menuInner = document.querySelector(".navbar-menu--inner");
+
+  if (!menuTrigger || !menuOpen || !menuClose || !menuInner) return;
+
+  let isMenuOpen = false;
+
+  // Initialize menu elements
+  function initializeMobileMenu() {
+    if (window.innerWidth >= 992) return;
+
+    gsap.set(menuClose, { opacity: 0 });
+    gsap.set(menuInner, { display: "none", x: "100vw" });
+
+    const menuItems = menuInner.querySelectorAll('[animate="navbar"]');
+    gsap.set(menuItems, { opacity: 0, y: "1rem" });
+  }
+
+  // Open menu
+  function openMenu() {
+    const menuItems = menuInner.querySelectorAll('[animate="navbar"]');
+
+    // Animate menu open icon
+    gsap.to(menuOpen, {
+      opacity: 0,
+      duration: 0.3,
+      ease: "power4.out",
+    });
+
+    // Animate menu close icon
+    gsap.to(menuClose, {
+      opacity: 1,
+      duration: 0.3,
+      ease: "power4.out",
+    });
+
+    // Set display to flex and animate from right
+    gsap.set(menuInner, { display: "flex", x: "100vw" });
+    gsap.to(menuInner, {
+      x: "0vw",
+      duration: 0.5,
+      ease: "power4.out",
+    });
+
+    // Stagger animate menu items
+    gsap.to(menuItems, {
+      opacity: 1,
+      y: "0rem",
+      duration: 0.4,
+      ease: "power4.out",
+      stagger: 0.05,
+      delay: 0.2,
+    });
+
+    isMenuOpen = true;
+  }
+
+  // Close menu
+  function closeMenu() {
+    const menuItems = menuInner.querySelectorAll('[animate="navbar"]');
+
+    // Animate menu close icon
+    gsap.to(menuClose, {
+      opacity: 0,
+      duration: 0.3,
+      ease: "power4.out",
+    });
+
+    // Animate menu open icon
+    gsap.to(menuOpen, {
+      opacity: 1,
+      duration: 0.3,
+      ease: "power4.out",
+    });
+
+    // Animate menu out
+    gsap.to(menuInner, {
+      x: "100vw",
+      duration: 0.5,
+      ease: "power4.out",
+      onComplete: () => {
+        gsap.set(menuInner, { display: "none" });
+      },
+    });
+
+    // Reset menu items
+    gsap.set(menuItems, { opacity: 0, y: "1rem" });
+
+    isMenuOpen = false;
+  }
+
+  // Click handler
+  menuTrigger.addEventListener("click", function () {
+    // Only work on mobile screens
+    if (window.innerWidth >= 992) return;
+
+    if (isMenuOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  // Initialize on load
+  initializeMobileMenu();
+
+  // Reinitialize on resize
+  let wasMobile = window.innerWidth < 992;
+  window.addEventListener("resize", function () {
+    const isMobile = window.innerWidth < 992;
+
+    if (isMobile !== wasMobile) {
+      wasMobile = isMobile;
+
+      if (isMobile) {
+        initializeMobileMenu();
+        isMenuOpen = false;
+      } else {
+        // Reset everything on desktop
+        gsap.set(menuOpen, { opacity: 1 });
+        gsap.set(menuClose, { opacity: 0 });
+        gsap.set(menuInner, { display: "", x: "0vw" });
+        const menuItems = menuInner.querySelectorAll('[animate="navbar"]');
+        gsap.set(menuItems, { opacity: 1, y: "0rem" });
+        isMenuOpen = false;
+      }
+    }
+  });
+})();
+
 // --------------------- Navbar Scroll Behavior --------------------- //
 (function () {
   const navbar = document.querySelector(".navbar");

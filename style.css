@@ -31,6 +31,26 @@ body {
   will-change: background-color, color;
 }
 
+/* --------------------- Mobile Hamburger Menu Styles --------------------- */
+@media (max-width: 991px) {
+  .menu--trigger {
+    cursor: pointer;
+  }
+
+  .menu--open,
+  .menu--close {
+    will-change: opacity;
+  }
+
+  .navbar-menu--inner {
+    will-change: transform;
+  }
+
+  [animate="navbar"] {
+    will-change: opacity, transform;
+  }
+}
+
 /* --------------------- Eyebrow Animation Styles --------------------- */
 [animation="eyebrow"] {
   position: relative;
