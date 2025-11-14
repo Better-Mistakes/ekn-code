@@ -210,7 +210,10 @@ $(window).on("load", function () {
       // Only work on desktop screens
       if (window.innerWidth < 992) return;
 
-      const isNewDropdown = activeDropdown !== dropdown;
+      // If this dropdown is already active, don't do anything
+      if (activeDropdown === dropdown) return;
+
+      const isNewDropdown = activeDropdown !== null;
       const isFirstOpen = activeDropdown === null;
 
       // Close previously active dropdown if it exists
