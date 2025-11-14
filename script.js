@@ -224,20 +224,6 @@ $(window).on("load", function () {
       activateNavbarStyle();
       activeDropdown = dropdown;
     });
-
-    // Mouseleave on the entire dropdown element
-    dropdown.addEventListener("mouseleave", function () {
-      // Only work on desktop screens
-      if (window.innerWidth < 992) return;
-
-      // Only close if this is the active dropdown
-      if (activeDropdown === dropdown) {
-        closeDropdown(activeDropdown);
-        resetDropdownItems(activeDropdown);
-        activeDropdown = null;
-        deactivateNavbarStyle();
-      }
-    });
   });
 
   // Add hover listeners to .navlink elements (desktop only)
