@@ -348,13 +348,15 @@ $(window).on("load", function () {
   const menuOpen = document.querySelector(".menu--open");
   const menuClose = document.querySelector(".menu--close");
   const menuInner = document.querySelector(".navbar-menu--inner");
+  const navbar = document.querySelector(".navbar");
 
-  if (!menuTrigger || !menuOpen || !menuClose || !menuInner) {
+  if (!menuTrigger || !menuOpen || !menuClose || !menuInner || !navbar) {
     console.log("Mobile menu elements not found:", {
       menuTrigger: !!menuTrigger,
       menuOpen: !!menuOpen,
       menuClose: !!menuClose,
       menuInner: !!menuInner,
+      navbar: !!navbar,
     });
     return;
   }
@@ -376,6 +378,7 @@ $(window).on("load", function () {
   // Open menu
   function openMenu() {
     const menuItems = menuInner.querySelectorAll('[animate="navbar"]');
+    const navButtons = navbar.querySelectorAll(".btn.is--nav");
 
     // Animate menu open icon
     gsap.to(menuOpen, {
@@ -409,12 +412,30 @@ $(window).on("load", function () {
       delay: 0.2,
     });
 
+    // Animate navbar color
+    gsap.to(navbar, {
+      color: "#040a44",
+      duration: 0.3,
+      ease: "power4.out",
+    });
+
+    // Animate nav buttons
+    navButtons.forEach((btn) => {
+      gsap.to(btn, {
+        backgroundColor: "#040a44",
+        color: "#f2f3f6",
+        duration: 0.3,
+        ease: "power4.out",
+      });
+    });
+
     isMenuOpen = true;
   }
 
   // Close menu
   function closeMenu() {
     const menuItems = menuInner.querySelectorAll('[animate="navbar"]');
+    const navButtons = navbar.querySelectorAll(".btn.is--nav");
 
     // Animate menu close icon
     gsap.to(menuClose, {
@@ -442,6 +463,23 @@ $(window).on("load", function () {
 
     // Reset menu items
     gsap.set(menuItems, { opacity: 0, y: "1rem" });
+
+    // Revert navbar color
+    gsap.to(navbar, {
+      color: "",
+      duration: 0.3,
+      ease: "power4.out",
+    });
+
+    // Revert nav buttons
+    navButtons.forEach((btn) => {
+      gsap.to(btn, {
+        backgroundColor: "",
+        color: "",
+        duration: 0.3,
+        ease: "power4.out",
+      });
+    });
 
     isMenuOpen = false;
   }
