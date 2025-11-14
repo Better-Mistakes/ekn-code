@@ -148,11 +148,12 @@ $(window).on("load", function () {
     });
   }
 
-  // Add hover listeners to each trigger (desktop only)
+  // Add hover listeners to each dropdown (desktop only)
   dropdowns.forEach((dropdown) => {
     const trigger = dropdown.querySelector(".navbar--dropdown-trigger");
     if (!trigger) return;
 
+    // Mouseenter on trigger
     trigger.addEventListener("mouseenter", function () {
       // Only work on desktop screens
       if (window.innerWidth < 992) return;
@@ -163,12 +164,27 @@ $(window).on("load", function () {
       // Close previously active dropdown if it exists
       if (activeDropdown && activeDropdown !== dropdown) {
         closeDropdown(activeDropdown);
+        resetDropdownItems(activeDropdown);
       }
 
       // Open current dropdown (with animation only if it's the first open or a new dropdown)
       openDropdown(dropdown, isFirstOpen || isNewDropdown);
       activateNavbarStyle();
       activeDropdown = dropdown;
+    });
+
+    // Mouseleave on the entire dropdown element
+    dropdown.addEventListener("mouseleave", function () {
+      // Only work on desktop screens
+      if (window.innerWidth < 992) return;
+
+      // Only close if this is the active dropdown
+      if (activeDropdown === dropdown) {
+        closeDropdown(activeDropdown);
+        resetDropdownItems(activeDropdown);
+        activeDropdown = null;
+        deactivateNavbarStyle();
+      }
     });
   });
 
