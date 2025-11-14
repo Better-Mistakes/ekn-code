@@ -184,8 +184,17 @@ $(window).on("load", function () {
   const menuClose = document.querySelector(".menu--close");
   const menuInner = document.querySelector(".navbar-menu--inner");
 
-  if (!menuTrigger || !menuOpen || !menuClose || !menuInner) return;
+  if (!menuTrigger || !menuOpen || !menuClose || !menuInner) {
+    console.log("Mobile menu elements not found:", {
+      menuTrigger: !!menuTrigger,
+      menuOpen: !!menuOpen,
+      menuClose: !!menuClose,
+      menuInner: !!menuInner,
+    });
+    return;
+  }
 
+  console.log("Mobile menu initialized");
   let isMenuOpen = false;
 
   // Initialize menu elements
@@ -274,12 +283,19 @@ $(window).on("load", function () {
 
   // Click handler
   menuTrigger.addEventListener("click", function () {
+    console.log("Menu trigger clicked, screen width:", window.innerWidth);
+
     // Only work on mobile screens
-    if (window.innerWidth >= 992) return;
+    if (window.innerWidth >= 992) {
+      console.log("Screen too wide for mobile menu");
+      return;
+    }
 
     if (isMenuOpen) {
+      console.log("Closing menu");
       closeMenu();
     } else {
+      console.log("Opening menu");
       openMenu();
     }
   });
