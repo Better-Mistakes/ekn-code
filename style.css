@@ -31,6 +31,21 @@ body {
   will-change: background-color, color;
 }
 
+/* --------------------- Mobile Navbar Dropdown Styles --------------------- */
+@media (max-width: 991px) {
+  .navbar--dropdown-trigger {
+    cursor: pointer;
+  }
+
+  .navbar--dropdown-list {
+    will-change: transform;
+  }
+
+  .navbar--goback {
+    cursor: pointer;
+  }
+}
+
 /* --------------------- Mobile Hamburger Menu Styles --------------------- */
 @media (max-width: 991px) {
   .menu--trigger {

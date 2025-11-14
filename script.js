@@ -177,6 +177,87 @@ $(window).on("load", function () {
   });
 })();
 
+// --------------------- Mobile Navbar Dropdown Animation --------------------- //
+(function () {
+  const dropdowns = document.querySelectorAll(".navbar--dropdown");
+
+  if (dropdowns.length === 0) return;
+
+  dropdowns.forEach((dropdown) => {
+    const trigger = dropdown.querySelector(".navbar--dropdown-trigger");
+    const list = dropdown.querySelector(".navbar--dropdown-list");
+    const goBack = list ? list.querySelector(".navbar--goback") : null;
+
+    if (!trigger || !list) return;
+
+    // Initialize on mobile
+    function initMobileDropdown() {
+      if (window.innerWidth >= 992) return;
+      gsap.set(list, { display: "none", x: "100vw" });
+    }
+
+    // Open dropdown
+    function openDropdown() {
+      gsap.set(list, { display: "flex", x: "100vw" });
+      gsap.to(list, {
+        x: "0vw",
+        duration: 0.5,
+        ease: "power4.out",
+      });
+    }
+
+    // Close dropdown
+    function closeDropdown() {
+      gsap.to(list, {
+        x: "100vw",
+        duration: 0.5,
+        ease: "power4.out",
+        onComplete: () => {
+          gsap.set(list, { display: "none" });
+        },
+      });
+    }
+
+    // Trigger click handler (mobile only)
+    trigger.addEventListener("click", function (e) {
+      if (window.innerWidth >= 992) return;
+      e.preventDefault();
+      e.stopPropagation();
+      openDropdown();
+    });
+
+    // Go back button handler
+    if (goBack) {
+      goBack.addEventListener("click", function (e) {
+        if (window.innerWidth >= 992) return;
+        e.preventDefault();
+        e.stopPropagation();
+        closeDropdown();
+      });
+    }
+
+    // Initialize
+    initMobileDropdown();
+
+    // Reinitialize on resize
+    let wasMobile = window.innerWidth < 992;
+    window.addEventListener("resize", function () {
+      const isMobile = window.innerWidth < 992;
+
+      if (isMobile !== wasMobile) {
+        wasMobile = isMobile;
+
+        if (isMobile) {
+          initMobileDropdown();
+        } else {
+          // Reset on desktop
+          gsap.set(list, { display: "", x: "0vw" });
+        }
+      }
+    });
+  });
+})();
+
 // --------------------- Mobile Hamburger Menu Animation --------------------- //
 (function () {
   const menuTrigger = document.querySelector(".menu--trigger");
