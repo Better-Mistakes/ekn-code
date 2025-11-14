@@ -225,6 +225,7 @@ $(window).on("load", function () {
   dropdowns.forEach((dropdown) => {
     const trigger = dropdown.querySelector(".navbar--dropdown-trigger");
     const list = dropdown.querySelector(".navbar--dropdown-list");
+    const bg = dropdown.querySelector(".navbar--dropdown-bg");
     const goBack = list ? list.querySelector(".navbar--goback") : null;
 
     if (!trigger || !list) return;
@@ -233,6 +234,9 @@ $(window).on("load", function () {
     function initMobileDropdown() {
       if (window.innerWidth >= 992) return;
       gsap.set(list, { display: "none", x: "100vw" });
+      if (bg) {
+        gsap.set(bg, { opacity: 0 });
+      }
     }
 
     // Open dropdown
@@ -243,6 +247,15 @@ $(window).on("load", function () {
         duration: 0.5,
         ease: "power4.out",
       });
+
+      // Animate background
+      if (bg) {
+        gsap.to(bg, {
+          opacity: 1,
+          duration: 0.5,
+          ease: "power4.out",
+        });
+      }
     }
 
     // Close dropdown
@@ -255,6 +268,15 @@ $(window).on("load", function () {
           gsap.set(list, { display: "none" });
         },
       });
+
+      // Animate background out
+      if (bg) {
+        gsap.to(bg, {
+          opacity: 0,
+          duration: 0.5,
+          ease: "power4.out",
+        });
+      }
     }
 
     // Trigger click handler (mobile only)
@@ -291,6 +313,9 @@ $(window).on("load", function () {
         } else {
           // Reset on desktop
           gsap.set(list, { display: "", x: "0vw" });
+          if (bg) {
+            gsap.set(bg, { opacity: "" });
+          }
         }
       }
     });

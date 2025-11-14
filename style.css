@@ -41,6 +41,10 @@ body {
     will-change: transform;
   }
 
+  .navbar--dropdown-bg {
+    will-change: opacity;
+  }
+
   .navbar--goback {
     cursor: pointer;
   }
