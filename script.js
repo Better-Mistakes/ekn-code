@@ -684,6 +684,7 @@ $(window).on("load", function () {
   const menuClose = document.querySelector(".menu--close");
   const menuInner = document.querySelector(".navbar-menu--inner");
   const navbar = document.querySelector(".navbar");
+  const navbarBg = document.querySelector(".navbar--bg");
 
   if (!menuTrigger || !menuOpen || !menuClose || !menuInner || !navbar) {
     console.log("Mobile menu elements not found:", {
@@ -692,6 +693,7 @@ $(window).on("load", function () {
       menuClose: !!menuClose,
       menuInner: !!menuInner,
       navbar: !!navbar,
+      navbarBg: !!navbarBg,
     });
     return;
   }
@@ -757,6 +759,15 @@ $(window).on("load", function () {
       ease: "power4.out",
     });
 
+    // Animate navbar background
+    if (navbarBg) {
+      gsap.to(navbarBg, {
+        backgroundColor: "rgba(242, 243, 246, 0.6)",
+        duration: 0.3,
+        ease: "power4.out",
+      });
+    }
+
     // Animate nav buttons
     navButtons.forEach((btn) => {
       gsap.to(btn, {
@@ -811,6 +822,15 @@ $(window).on("load", function () {
       duration: 0.3,
       ease: "power4.out",
     });
+
+    // Revert navbar background
+    if (navbarBg) {
+      gsap.to(navbarBg, {
+        backgroundColor: "",
+        duration: 0.3,
+        ease: "power4.out",
+      });
+    }
 
     // Revert nav buttons
     navButtons.forEach((btn) => {
